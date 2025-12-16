@@ -1,3 +1,3 @@
-class Loans:
+class AccessoryRental:
     def __init__(self, db_connection):
         self.conn = db_connection.get_connection()
