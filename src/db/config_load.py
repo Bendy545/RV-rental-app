@@ -4,7 +4,7 @@ import os
 class ConfigError(Exception):
     pass
 
-def load_config(file_path="config.json"):
+def load_config(file_path="db/config.json"):
     if not os.path.exists(file_path):
         raise ConfigError("Config File Not Found")
 

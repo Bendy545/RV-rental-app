@@ -1,5 +1,5 @@
 {
-  "user": "APLIKACE1",
+  "user": "system",
   "password": "student",
   "host": "localhost",
   "port": 1521,
