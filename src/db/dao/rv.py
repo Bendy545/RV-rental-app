@@ -35,22 +35,49 @@ class Rv:
         cursor.close()
         return result
 
+    def select_rv_by_id(self, id):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT rv.SPZ, rv.MANUFACTURE_DATE, rv.PRICE_FOR_DAY, rv.STATUS, b.NAME AS BRAND, t.NAME AS TYPE
+        FROM rv
+        JOIN brand b on rv.ID_BRAND = b.ID
+        JOIN rv_type t ON rv.ID_TYPE = t.ID
+        WHERE rv.ID = :id
+        """
+
+        cursor.execute(sql, {
+            'id': id
+        })
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
     def update_rv(self, spz=None, manufacture_date=None, price_for_day=None, status=None, id_brand=None, id_type=None):
         cursor = self.conn.cursor()
 
-        if spz is not None:
-            cursor.execute("""UPDATE rv SET SPZ = :spz WHERE ID = :id""", {"spz": spz, "id": id})
-        if manufacture_date is not None:
-            cursor.execute("""UPDATE rv SET MANUFACTURE_DATE = :date WHERE ID = :id""",{"date": manufacture_date, "id": id})
-        if price_for_day is not None:
-            cursor.execute("""UPDATE rv SET PRICE_FOR_DAY = :price WHERE ID = :id""", {"price": price_for_day, "id": id})
-        if status is not None:
-            cursor.execute("""UPDATE rv SET STATUS = :status WHERE ID = :id""", {"status": status, "id": id})
-        if id_brand is not None:
-            cursor.execute("""UPDATE rv SET ID_BRAND = :id_brand WHERE ID = :id""", {"id_brand": id_brand, "id": id})
-        if id_type is not None:
-            cursor.execute("""UPDATE rv SET ID_TYPE = :id_type WHERE ID = :id""", {"id_type": id_type, "id": id})
+        fields = {
+            "SPZ": spz,
+            "MANUFACTURE_DATE": manufacture_date,
+            "PRICE_FOR_DAY": price_for_day,
+            "STATUS": status,
+            "ID_BRAND": id_brand,
+            "ID_TYPE": id_type
+        }
 
+        update_fields = {k: v for k, v in fields.items() if v is not None}
+
+        if not update_fields:
+            return
+
+        set_clause = ", ".join([f"{key} = :{key}" for key in update_fields])
+
+        sql = f"""
+        UPDATE rv SET {set_clause} 
+        WHERE ID = :id
+        """
+
+        update_fields["id"] = id
+        cursor.execute(sql, update_fields)
         self.conn.commit()
         cursor.close()
 

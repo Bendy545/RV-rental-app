@@ -29,28 +29,45 @@ class Customer:
         cursor.close()
         return result
 
-    def update_customer(self, id, name, surname, email, tel):
+    def select_customer_by_id(self, id):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT NAME, SURNAME, EMAIL, TEL FROM CUSTOMER WHERE ID = :id
+        """
+
+        cursor.execute(sql, {
+            "id": id
+        })
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
+    def update_customer(self, id, name=None, surname=None, email=None, tel=None):
         cursor = self.conn.cursor()
 
-        if name is not None:
-            cursor.execute("""
-            UPDATE CUSTOMER SET NAME = :name WHERE ID = :id
-            """, {"name": name, "id": id})
+        fields = {
+            "NAME": name,
+            "SURNAME": surname,
+            "EMAIL": email,
+            "TEL": tel,
+        }
 
-        if surname is not None:
-            cursor.execute("""
-            UPDATE CUSTOMER SET SURNAME = :surname WHERE ID = :id
-            """, {"surname": surname, "id": id})
+        update_fields = {k: v for k, v in fields.items() if v is not None}
 
-        if email is not None:
-            cursor.execute("""
-            UPDATE CUSTOMER SET EMAIL = :email WHERE ID = :id
-            """, {"email": email, "id": id})
+        if not update_fields:
+            return
 
-        if tel is not None:
-            cursor.execute("""
-            UPDATE CUSTOMER SET TEL = :tel WHERE ID = :id
-            """, {"tel": tel, "id": id})
+        set_clause = ", ".join([f"{key} = :{key}" for key in update_fields])
+
+        sql = f"""
+        UPDATE customer SET {set_clause} 
+        WHERE ID = :id
+        """
+
+        update_fields["id"] = id
+        cursor.execute(sql, update_fields)
+        self.conn.commit()
+        cursor.close()
 
     def delete_customer(self, id):
         cursor = self.conn.cursor()
