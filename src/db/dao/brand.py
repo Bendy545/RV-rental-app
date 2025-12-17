@@ -24,6 +24,16 @@ class Brand:
         cursor.close()
         return result
 
+    def select_brand_by_id(self, id):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT NAME FROM brand WHERE ID = :id
+        """
+        cursor.execute(sql, {"id":id})
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
     def update_brand(self, id, name=None):
         cursor = self.conn.cursor()
 
@@ -42,6 +52,5 @@ class Brand:
         """
 
         cursor.execute(sql, {"id":id})
-
         self.conn.commit()
         cursor.close()

@@ -24,6 +24,19 @@ class RvType:
         cursor.close()
         return result
 
+    def select_type_by_id(self, id):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT NAME, DESCRIPTION FROM rv_type WHERE ID = :id
+        """
+
+        cursor.execute(sql, {
+            'id': id
+        })
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
     def update_type(self, id, name=None, description=None):
         cursor = self.conn.cursor()
 

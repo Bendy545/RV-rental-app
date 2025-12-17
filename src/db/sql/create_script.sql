@@ -26,10 +26,8 @@ create table customer(
 id int generated always as identity primary key,
 name varchar(30) not null,
 surname varchar(30) not null,
-email varchar(50) not null unique,
-tel varchar(12) not null,
-reg_date date not null,
-active_c number(1,0) check(active_c in (0, 1))
+email varchar(50) not null,
+tel varchar(12) not null
 );
 
 create table accessory(
@@ -46,6 +44,7 @@ date_to date not null,
 creation_date date not null,
 price decimal(10, 2) not null,
 status varchar(20) not null check(status in ('reserved', 'active', 'finished', 'canceled')),
+is_paid number(1,0) not null check(is_paid in (1, 0)),
 id_customer int not null check(id_customer > 0),
 id_rv int not null check(id_rv > 0),
 
