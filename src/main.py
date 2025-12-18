@@ -86,7 +86,7 @@ def main():
         is_paid=0,
         id_customer=2,
         id_rv=2
-    )"""
+    )
 
     accessory.create_accessory("Nosic kol", "Nosic kol pro 2 kola", 150.00)
     accessory.create_accessory("Kempingovy stul", "Skladaci stul", 50.00)
@@ -113,6 +113,8 @@ def main():
         amount=1,
         price_at_rent=120
     )
+    """
+
 
 
 if __name__ == "__main__":
