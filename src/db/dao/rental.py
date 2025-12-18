@@ -1,3 +1,6 @@
+class RentalException(Exception):
+    pass
+
 class Rental:
     def __init__(self, db_connection):
         self.conn = db_connection.get_connection()
@@ -84,9 +87,13 @@ class Rental:
     def delete_rental(self, id):
         cursor = self.conn.cursor()
         sql = """
-        DELETE FROM rental WHERE ID = :id
+        BEGIN delete_rental_proc(:id); END;
         """
-
-        cursor.execute(sql, {"id": id})
-        self.conn.commit()
-        cursor.close()
+        try:
+            cursor.execute(sql, {"id": id})
+            self.conn.commit()
+        except RentalException as e:
+            self.conn.rollback()
+            raise e
+        finally:
+            cursor.close()
