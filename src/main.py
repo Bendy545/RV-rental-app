@@ -26,8 +26,8 @@ def main():
     rv_type = RvType(db)
 
     rental.create_rental(
-        date_from=date(2024, 12, 20),
-        date_to=date(2024, 12, 25),
+        date_from=date(2022, 12, 20),
+        date_to=date(2022, 12, 25),
         creation_date=date.today(),
         price=500.00,
         id_customer=1,
@@ -43,8 +43,8 @@ def main():
     ]
 
     rental_id = rental.create_rental(
-        date_from=date(2024, 12, 26),
-        date_to=date(2024, 12, 30),
+        date_from=date(2023, 12, 26),
+        date_to=date(2023, 12, 30),
         creation_date=date.today(),
         price=700.00,
         id_customer=2,
@@ -59,8 +59,8 @@ def main():
     ]
 
     rental_id = rental.create_rental(
-        date_from=date(2025, 1, 5),
-        date_to=date(2025, 1, 12),
+        date_from=date(2021, 1, 5),
+        date_to=date(2021, 1, 12),
         creation_date=date.today(),
         price=1200.00,
         id_customer=1,

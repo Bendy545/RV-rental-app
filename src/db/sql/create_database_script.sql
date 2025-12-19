@@ -14,7 +14,6 @@ id int generated always as identity primary key,
 spz varchar(20) not null unique,
 manufacture_date date not null,
 price_for_day decimal(10, 2) not null,
-status varchar(20) not null check(status in ('available', 'rented', 'service')),
 id_brand int not null check(id_brand > 0),
 id_type int not null check(id_type > 0),
 

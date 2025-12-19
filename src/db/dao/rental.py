@@ -50,14 +50,14 @@ class Rental:
 
                 for acc in accessories_list:
                     cursor.execute("""
-                                   INSERT INTO accessory_rental (id_accessory, id_rental, amount, price_at_rent)
-                                   VALUES (:id_accessory, :id_rental, :amount, :price)
-                                   """, {
-                                       "id_accessory": acc['id_accessory'],
-                                       "id_rental": rental_id_value,
-                                       "amount": acc['amount'],
-                                       "price": acc['price']
-                                   })
+                           INSERT INTO accessory_rental (id_accessory, id_rental, amount, price_at_rent)
+                           VALUES (:id_accessory, :id_rental, :amount, :price)
+                           """, {
+                               "id_accessory": acc['id_accessory'],
+                               "id_rental": rental_id_value,
+                               "amount": acc['amount'],
+                               "price": acc['price']
+                           })
 
                 self.conn.commit()
                 print(f"Rental created with {len(accessories_list)} accessories (rental_id: {rental_id_value})")
