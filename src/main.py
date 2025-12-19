@@ -25,6 +25,50 @@ def main():
     rv = Rv(db)
     rv_type = RvType(db)
 
+    rental.create_rental(
+        date_from=date(2024, 12, 20),
+        date_to=date(2024, 12, 25),
+        creation_date=date.today(),
+        price=500.00,
+        id_customer=1,
+        id_rv=1
+    )
+    # Output: "Rental created successfully (no accessories)"
+
+    # ========================================
+    # Example 2: Rental WITH ONE accessory
+    # ========================================
+    accessories = [
+        {'id_accessory': 2, 'amount': 1, 'price': 50.0}
+    ]
+
+    rental_id = rental.create_rental(
+        date_from=date(2024, 12, 26),
+        date_to=date(2024, 12, 30),
+        creation_date=date.today(),
+        price=700.00,
+        id_customer=2,
+        id_rv=1,
+        accessories_list=accessories
+    )
+
+    accessories = [
+        {'id_accessory': 1, 'amount': 2, 'price': 30.0},
+        {'id_accessory': 3, 'amount': 1, 'price': 100.0},
+        {'id_accessory': 2, 'amount': 4, 'price': 15.0}
+    ]
+
+    rental_id = rental.create_rental(
+        date_from=date(2025, 1, 5),
+        date_to=date(2025, 1, 12),
+        creation_date=date.today(),
+        price=1200.00,
+        id_customer=1,
+        id_rv=2,
+        accessories_list=accessories
+    )
+
+    print(f"Created rental with ID: {rental_id}")
 
     """brand.create_brand("Volkswagen")
     brand.create_brand("Fiat")
