@@ -5,25 +5,69 @@ class Rental:
     def __init__(self, db_connection):
         self.conn = db_connection.get_connection()
 
-    def create_rental(self, date_from, date_to, creation_date, price, status, is_paid, id_customer, id_rv):
+    def create_rental(self, date_from, date_to, creation_date, price, id_customer, id_rv, accessories_list=None):
         cursor = self.conn.cursor()
-        sql = """
-        INSERT INTO rental (DATE_FROM, DATE_TO, CREATION_DATE, PRICE, STATUS, IS_PAID, ID_CUSTOMER, ID_RV)
-        VALUES (:date_from, :date_to, :creation_date, :price, :status, :is_paid, :id_customer, :id_rv)
-        """
 
-        cursor.execute(sql, {
-            "date_from": date_from,
-            "date_to": date_to,
-            "creation_date": creation_date,
-            "price": price,
-            "status": status,
-            "is_paid": is_paid,
-            "id_customer": id_customer,
-            "id_rv": id_rv
-        })
-        self.conn.commit()
-        cursor.close()
+        try:
+            if not accessories_list:
+                sql = """
+                BEGIN
+                create_rental_simple(:date_from, :date_to, :creation_date, :price, :id_customer, :id_rv);
+                END;
+                """
+
+                cursor.execute(sql, {
+                    "date_from": date_from,
+                    "date_to": date_to,
+                    "creation_date": creation_date,
+                    "price": price,
+                    "id_customer": id_customer,
+                    "id_rv": id_rv
+                })
+                self.conn.commit()
+                print("Rental created successfully (no accessories)")
+                return None
+
+            else:
+                rental_id = cursor.var(int)
+                sql = """
+                BEGIN
+                create_rental_with_acc(:date_from, :date_to, :creation_date, :price, :id_customer, :id_rv, :rental_id);
+                END;
+                """
+
+                cursor.execute(sql, {
+                    "date_from": date_from,
+                    "date_to": date_to,
+                    "creation_date": creation_date,
+                    "price": price,
+                    "id_customer": id_customer,
+                    "id_rv": id_rv,
+                    "rental_id": rental_id
+                })
+
+                rental_id_value = rental_id.getvalue()
+
+                for acc in accessories_list:
+                    cursor.execute("""
+                           INSERT INTO accessory_rental (id_accessory, id_rental, amount, price_at_rent)
+                           VALUES (:id_accessory, :id_rental, :amount, :price)
+                           """, {
+                               "id_accessory": acc['id_accessory'],
+                               "id_rental": rental_id_value,
+                               "amount": acc['amount'],
+                               "price": acc['price']
+                           })
+
+                self.conn.commit()
+                print(f"Rental created with {len(accessories_list)} accessories (rental_id: {rental_id_value})")
+                return rental_id_value
+
+        except Exception as e:
+            self.conn.rollback()
+            raise RentalException(f"Error creating rental: {e}")
+        finally:
+            cursor.close()
 
     def all_rentals(self):
         cursor = self.conn.cursor()

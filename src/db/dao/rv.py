@@ -2,18 +2,17 @@ class Rv:
     def __init__(self, db_connection):
         self.conn = db_connection.get_connection()
 
-    def create_rv(self, spz, manufacture_date, price_for_day, status, id_brand, id_type):
+    def create_rv(self, spz, manufacture_date, price_for_day, id_brand, id_type):
         cursor = self.conn.cursor()
         sql = """
-        INSERT INTO rv(SPZ, MANUFACTURE_DATE, PRICE_FOR_DAY, STATUS, ID_BRAND, ID_TYPE)
-        VALUES (:spz, :manufacture_date, :price_for_day, :status, :id_brand, :id_type)
+        INSERT INTO rv(SPZ, MANUFACTURE_DATE, PRICE_FOR_DAY, ID_BRAND, ID_TYPE)
+        VALUES (:spz, :manufacture_date, :price_for_day, :id_brand, :id_type)
         """
 
         cursor.execute(sql, {
             'spz': spz,
             'manufacture_date': manufacture_date,
             'price_for_day': price_for_day,
-            'status': status,
             'id_brand': id_brand,
             'id_type': id_type
         })
@@ -24,7 +23,7 @@ class Rv:
     def all_rvs(self):
         cursor = self.conn.cursor()
         sql = """
-        SELECT rv.ID, rv.SPZ, rv.MANUFACTURE_DATE, rv.PRICE_FOR_DAY, rv.STATUS, b.NAME AS BRAND, t.NAME AS TYPE
+        SELECT rv.ID, rv.SPZ, rv.MANUFACTURE_DATE, rv.PRICE_FOR_DAY, b.NAME AS BRAND, t.NAME AS TYPE
         FROM rv
         JOIN brand b ON rv.ID_BRAND = b.ID
         JOIN rv_type t ON rv.ID_TYPE = t.ID
@@ -38,7 +37,7 @@ class Rv:
     def select_rv_by_id(self, id):
         cursor = self.conn.cursor()
         sql = """
-        SELECT rv.SPZ, rv.MANUFACTURE_DATE, rv.PRICE_FOR_DAY, rv.STATUS, b.NAME AS BRAND, t.NAME AS TYPE
+        SELECT rv.SPZ, rv.MANUFACTURE_DATE, rv.PRICE_FOR_DAY, b.NAME AS BRAND, t.NAME AS TYPE
         FROM rv
         JOIN brand b on rv.ID_BRAND = b.ID
         JOIN rv_type t ON rv.ID_TYPE = t.ID
@@ -52,14 +51,13 @@ class Rv:
         cursor.close()
         return result
 
-    def update_rv(self, spz=None, manufacture_date=None, price_for_day=None, status=None, id_brand=None, id_type=None):
+    def update_rv(self, spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
         cursor = self.conn.cursor()
 
         fields = {
             "SPZ": spz,
             "MANUFACTURE_DATE": manufacture_date,
             "PRICE_FOR_DAY": price_for_day,
-            "STATUS": status,
             "ID_BRAND": id_brand,
             "ID_TYPE": id_type
         }
