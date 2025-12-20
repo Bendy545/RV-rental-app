@@ -12,6 +12,8 @@ class RvType:
             'name': name,
             'description': description
         })
+        self.conn.commit()
+        cursor.close()
 
     def all_types(self):
         cursor = self.conn.cursor()

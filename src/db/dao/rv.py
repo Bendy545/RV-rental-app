@@ -51,7 +51,7 @@ class Rv:
         cursor.close()
         return result
 
-    def update_rv(self, spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
+    def update_rv(self,id ,spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
         cursor = self.conn.cursor()
 
         fields = {
