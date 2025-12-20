@@ -42,6 +42,21 @@ class Customer:
         cursor.close()
         return result
 
+    def select_customer_by_email(self, email):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT ID, NAME, SURNAME, EMAIL, TEL
+        FROM customer
+        WHERE LOWER(email) = LOWER(:email)
+        """
+
+        cursor.execute(sql, {
+            "email": email
+        })
+        result = cursor.fetchone()
+        cursor.close()
+        return result
+
     def update_customer(self, id, name=None, surname=None, email=None, tel=None):
         cursor = self.conn.cursor()
 
