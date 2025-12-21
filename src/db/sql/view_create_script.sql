@@ -37,3 +37,12 @@ join accessory_rental ar on a.id = ar.id_accessory
 join rental r on ar.id_rental = r.id
 where r.status != 'canceled'
 group by a.name;
+
+create view v_rv_utilization
+as
+select rv.spz, b.name as brand_name, t.name as type_name, rv.price_for_day, COUNT(r.id) as total_rentals, SUM(r.date_to - r.date_from) as total_days_rented, AVG(r.date_to - r.date_from) as avg_rental_duration, SUM(r.price) as total_revenue
+from rv
+left join rental r on rv.id = r.id_rv and r.status != 'canceled'
+join brand b on rv.id_brand = b.id
+join rv_type t on rv.id_type = t.id
+group by rv.spz, b.name, t.name, rv.price_for_day;
