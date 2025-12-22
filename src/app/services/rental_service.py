@@ -58,16 +58,43 @@ class RentalService:
         return rental_id
 
     def get_all_rentals_formatted(self):
-        raise NotImplemented
+        rentals = self.rental_dao.all_rentals()
+
+        formatted = []
+        for rental in rentals:
+            formatted.append({
+                'date_from': rental[0],
+                'date_to': rental[1],
+                'creation_date': rental[2],
+                'price': float(rental[3]),
+                'status': rental[4],
+                'is_paid': 'Yes' if rental[5] == 1 else 'No',
+                'customer_email': rental[6],
+                'rv_spz': rental[7]
+            })
+
+        return formatted
+
+    def update_rental_status(self, rental_id, new_status):
+
+        valid_statuses = ['reserved', 'active', 'finished', 'canceled']
+        if new_status not in valid_statuses:
+            raise ValueError(f"Invalid status. Must be one of: {valid_statuses}")
+
+        self.rental_dao.update_rental(rental_id, status=new_status)
 
     def mark_rental_as_paid(self, rental_id):
-        raise NotImplemented
+
+        self.rental_dao.update_rental(rental_id, is_paid=1)
 
     def cancel_rental(self, rental_id):
-        raise NotImplemented
+
+        self.rental_dao.update_rental(rental_id, status='canceled')
 
     def delete_rental(self, rental_id):
-        raise NotImplemented
 
-    def get_rental_details(self):
-        raise NotImplemented
+        self.rental_dao.delete_rental(rental_id)
+
+    def get_rental_details(self, rental_id):
+
+        return self.rental_dao.get_rental_with_accessories(rental_id)
