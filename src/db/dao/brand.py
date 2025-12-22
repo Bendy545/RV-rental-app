@@ -24,6 +24,17 @@ class Brand:
         cursor.close()
         return result
 
+    def select_brands_with_ids(self):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT ID, NAME FROM brand ORDER BY NAME
+        """
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
     def select_brand_by_id(self, id):
         cursor = self.conn.cursor()
         sql = """

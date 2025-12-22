@@ -25,6 +25,11 @@ def main():
     rv = Rv(db)
     rv_type = RvType(db)
 
+
+
+    rental.delete_rental(8)
+
+"""
     rental.create_rental(
         date_from=date(2022, 12, 20),
         date_to=date(2022, 12, 25),
@@ -70,7 +75,7 @@ def main():
 
     print(f"Created rental with ID: {rental_id}")
 
-    """brand.create_brand("Volkswagen")
+    brand.create_brand("Volkswagen")
     brand.create_brand("Fiat")
     brand.create_brand("Mercedes")
 
@@ -85,15 +90,6 @@ def main():
         status="available",
         id_brand=1,
         id_type=1
-    )
-
-    rv.create_rv(
-        spz="2BC3456",
-        manufacture_date=date(2020, 6, 15),
-        price_for_day=3200,
-        status="rented",
-        id_brand=2,
-        id_type=2
     )
 
     customer.create_customer(

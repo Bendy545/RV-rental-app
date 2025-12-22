@@ -83,6 +83,43 @@ class Rental:
         cursor.close()
         return result
 
+    def select_rental_with_accessories(self, id):
+        cursor = self.conn.cursor()
+
+        sql = """
+        SELECT r.DATE_FROM, r.DATE_TO, r.CREATION_DATE, r.PRICE, r.STATUS, r.IS_PAID, c.EMAIL, rv.SPZ
+        FROM rental r 
+        JOIN CUSTOMER c ON r.ID_CUSTOMER = c.ID
+        JOIN rv ON r.ID_RV = rv.ID
+        WHERE r.ID = :id
+        """
+
+        cursor.execute(sql, {
+            "id": id,
+        })
+        rental = cursor.fetchone()
+        if not rental:
+            cursor.close()
+            return None
+
+        acc_sql = """
+        SELECT a.NAME, ar.AMOUNT, ar.PRICE_AT_RENT
+        FROM accessory_rental ar
+        JOIN accessory a ON ar.ID_CUSTOMER = a.ID
+            WHERE ar.ID_RENTAL = :id
+        """
+
+        cursor.execute(acc_sql, {
+            "rental_id": id,
+        })
+        accessories = cursor.fetchall()
+        cursor.close()
+
+        return {
+            "rental": rental,
+            "accessories": accessories
+        }
+
     def select_rental_by_id(self, id):
         cursor = self.conn.cursor()
         sql = """

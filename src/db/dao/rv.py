@@ -51,7 +51,38 @@ class Rv:
         cursor.close()
         return result
 
-    def update_rv(self, spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
+    def check_availability(self, id, date_from, date_to):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT COUNT(*) 
+        FROM rental
+        WHERE id_rv = :id AND status IN ('reserved', 'active') AND NOT (:date_to <= date_from OR :date_from >= date_to)
+        """
+
+        cursor.execute(sql, {
+            'rv_id': id,
+            'date_from': date_from,
+            'date_to': date_to
+        })
+        count = cursor.fetchone()[0]
+        cursor.close()
+        return count == 0
+
+    def count_rvs_by_type(self, type_id):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT COUNT(*)
+        FROM rv
+        WHERE id_type = :type_id
+        """
+        cursor.execute(sql, {
+            'type_id': type_id
+        })
+        count = cursor.fetchone()[0]
+        cursor.close()
+        return count
+
+    def update_rv(self,id ,spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
         cursor = self.conn.cursor()
 
         fields = {

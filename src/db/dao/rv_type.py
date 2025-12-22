@@ -12,11 +12,24 @@ class RvType:
             'name': name,
             'description': description
         })
+        self.conn.commit()
+        cursor.close()
 
     def all_types(self):
         cursor = self.conn.cursor()
         sql = """
         SELECT NAME, DESCRIPTION FROM rv_type
+        """
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+    def select_types_with_ids(self):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT ID, NAME, DESCRIPTION FROM rv_type ORDER BY NAME
         """
 
         cursor.execute(sql)

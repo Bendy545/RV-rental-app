@@ -19,7 +19,7 @@ class Accessory:
     def all_accessories(self):
         cursor = self.conn.cursor()
         sql = """
-        SELECT NAME, DESCRIPITION, PRICE_FOR_DAY FROM accessory
+        SELECT NAME, DESCRIPTION, PRICE_FOR_DAY FROM accessory
         """
 
         cursor.execute(sql)
@@ -30,7 +30,7 @@ class Accessory:
     def select_accessory_by_id(self, id):
         cursor = self.conn.cursor()
         sql = """
-        SELECT NAME, DESCRIPTION, PRICE_FOR_DAY FROM accessory
+        SELECT NAME, DESCRIPTION, PRICE_FOR_DAY FROM accessory WHERE ID = :id
         """
 
         cursor.execute(sql, {
