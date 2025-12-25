@@ -27,6 +27,17 @@ class Accessory:
         cursor.close()
         return result
 
+    def all_accessories_with_ids(self):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT ID, NAME, DESCRIPTION, PRICE_FOR_DAY FROM accessory ORDER BY ID
+        """
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
     def select_accessory_by_id(self, id):
         cursor = self.conn.cursor()
         sql = """

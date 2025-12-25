@@ -19,6 +19,10 @@ class AccessoryService:
 
         return self.accessory_dao.all_accessories()
 
+    def get_all_accessories_with_ids(self):
+
+        return self.accessory_dao.all_accessories_with_ids()
+
     def get_accessory_by_id(self, accessory_id):
 
         return self.accessory_dao.select_accessory_by_id(accessory_id)
