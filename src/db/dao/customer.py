@@ -29,6 +29,17 @@ class Customer:
         cursor.close()
         return result
 
+    def all_customers_with_ids(self):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT ID, NAME, SURNAME, EMAIL, TEL FROM customer ORDER BY ID
+        """
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
     def select_customer_by_id(self, id):
         cursor = self.conn.cursor()
         sql = """
