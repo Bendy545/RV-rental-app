@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
-from rv_type_dialog import RvTypeDialog
+from src.ui.views.rv_type.rv_type_dialog import RvTypeDialog
 
 class RvTypeView:
     def __init__(self, parent, services):
@@ -22,7 +22,7 @@ class RvTypeView:
             button_frame,
             text="Add Rv Type",
             command=self.show_add_dialog,
-            bg="4CAF50",
+            bg="#4CAF50",
             fg="white",
             font=('Arial', 10, "bold"),
             padx=15,

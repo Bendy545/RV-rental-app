@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
-from customer_dialog import CustomerDialog
+from src.ui.views.customer.customer_dialog import CustomerDialog
 
 class CustomerView:
     def __init__(self, parent, services):
@@ -25,7 +25,7 @@ class CustomerView:
 
         add_btn = tk.Button(
             button_frame,
-            text="➕ Add Customer",
+            text="Add Customer",
             command=self.show_add_dialog,
             bg="#4CAF50",
             fg="white",

@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 
-
 class BrandDialog:
     def __init__(self, parent, brand_service, mode="add", brand_data=None):
         self.brand_service = brand_service

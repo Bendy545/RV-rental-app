@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
-from rv_dialog import RvDialog
+from src.ui.views.rv.rv_dialog import RvDialog
 
 class RvView:
     def __init__(self, parent, services):

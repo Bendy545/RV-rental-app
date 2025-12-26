@@ -135,6 +135,21 @@ class Rental:
         cursor.close()
         return result
 
+    def all_rentals_with_ids(self):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT r.ID, r.DATE_FROM, r.DATE_TO, r.CREATION_DATE, r.PRICE, r.STATUS, r.IS_PAID, c.EMAIL, rv.SPZ
+        FROM rental r 
+        JOIN CUSTOMER c ON r.ID_CUSTOMER = c.ID
+        JOIN rv ON r.ID_RV = rv.ID
+        ORDER BY r.CREATION_DATE DESC
+        """
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
     def update_rental(self, id, date_from=None, date_to=None, price=None, status=None, is_paid=None, id_customer=None, id_rv=None):
         cursor = self.conn.cursor()
 

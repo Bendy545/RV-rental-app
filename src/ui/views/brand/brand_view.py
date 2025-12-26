@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
-from brand_dialog import BrandDialog
+from src.ui.views.brand.brand_dialog import BrandDialog
 
 class BrandView:
     def __init__(self, parent, services):

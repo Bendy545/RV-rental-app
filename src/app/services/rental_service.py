@@ -75,6 +75,25 @@ class RentalService:
 
         return formatted
 
+    def get_all_rentals_with_ids(self):
+        rentals = self.rental_dao.all_rentals_with_ids()
+
+        formatted = []
+        for rental in rentals:
+            formatted.append({
+                'id': rental[0],  # Rental ID
+                'date_from': rental[1],
+                'date_to': rental[2],
+                'creation_date': rental[3],
+                'price': float(rental[4]),
+                'status': rental[5],
+                'is_paid': 'Yes' if rental[6] == 1 else 'No',
+                'customer_email': rental[7],
+                'rv_spz': rental[8]
+            })
+
+        return formatted
+
     def update_rental_status(self, rental_id, new_status):
 
         valid_statuses = ['reserved', 'active', 'finished', 'canceled']
