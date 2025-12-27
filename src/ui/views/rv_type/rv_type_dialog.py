@@ -32,8 +32,8 @@ class RvTypeDialog:
             title_frame,
             text=title_text,
             font=("Arial", 16, "bold"),
-            bg="#9C27B0",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=12)
 
         form_frame = tk.Frame(self.dialog, bg="white")
@@ -43,7 +43,8 @@ class RvTypeDialog:
             form_frame,
             text="Type Name *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).pack(anchor="w")
 
         self.name_entry = tk.Entry(form_frame, width=50, font=("Arial", 10))
@@ -53,7 +54,8 @@ class RvTypeDialog:
             form_frame,
             text="Description *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).pack(anchor="w", pady=(10, 0))
 
         self.desc_entry = tk.Entry(form_frame, width=50, font=("Arial", 10))
@@ -68,7 +70,7 @@ class RvTypeDialog:
             form_frame,
             text="* Required fields",
             font=("Arial", 8, "italic"),
-            fg="gray",
+            fg="black",
             bg="white"
         ).pack(anchor="w", pady=(10, 0))
 
@@ -79,8 +81,8 @@ class RvTypeDialog:
             button_frame,
             text="Save",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -93,8 +95,8 @@ class RvTypeDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,

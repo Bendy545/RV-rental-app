@@ -27,7 +27,7 @@ class RvTypeService:
 
     def get_all_types_with_ids(self):
 
-        return self.rv_type_dao.get_types_with_ids()
+        return self.rv_type_dao.select_types_with_ids()
 
     def get_type_by_id(self, type_id):
 

@@ -105,12 +105,12 @@ class Rental:
         acc_sql = """
         SELECT a.NAME, ar.AMOUNT, ar.PRICE_AT_RENT
         FROM accessory_rental ar
-        JOIN accessory a ON ar.ID_CUSTOMER = a.ID
+        JOIN accessory a ON ar.ID_ACCESSORY = a.ID
             WHERE ar.ID_RENTAL = :id
         """
 
         cursor.execute(acc_sql, {
-            "rental_id": id,
+            "id": id,
         })
         accessories = cursor.fetchall()
         cursor.close()
@@ -132,6 +132,21 @@ class Rental:
 
         cursor.execute(sql, {"id": id})
         result = cursor.fetchone()
+        cursor.close()
+        return result
+
+    def all_rentals_with_ids(self):
+        cursor = self.conn.cursor()
+        sql = """
+        SELECT r.ID, r.DATE_FROM, r.DATE_TO, r.CREATION_DATE, r.PRICE, r.STATUS, r.IS_PAID, c.EMAIL, rv.SPZ
+        FROM rental r 
+        JOIN CUSTOMER c ON r.ID_CUSTOMER = c.ID
+        JOIN rv ON r.ID_RV = rv.ID
+        ORDER BY r.CREATION_DATE DESC
+        """
+
+        cursor.execute(sql)
+        result = cursor.fetchall()
         cursor.close()
         return result
 

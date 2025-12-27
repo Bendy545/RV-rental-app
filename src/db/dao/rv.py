@@ -82,6 +82,18 @@ class Rv:
         cursor.close()
         return count
 
+    def count_rvs_by_brand(self, brand_id):
+        cursor = self.conn.cursor()
+        sql = """
+              SELECT COUNT(*) \
+              FROM rv \
+              WHERE id_brand = :brand_id \
+              """
+        cursor.execute(sql, {"brand_id": brand_id})
+        count = cursor.fetchone()[0]
+        cursor.close()
+        return count
+
     def update_rv(self,id ,spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
         cursor = self.conn.cursor()
 

@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
 
-
 class BrandDialog:
     def __init__(self, parent, brand_service, mode="add", brand_data=None):
         self.brand_service = brand_service
@@ -30,8 +29,8 @@ class BrandDialog:
             title_frame,
             text=title_text,
             font=("Arial", 16, "bold"),
-            bg="#4CAF50",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=12)
 
         form_frame = tk.Frame(self.dialog, bg="white")
@@ -41,7 +40,8 @@ class BrandDialog:
             form_frame,
             text="Brand name *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).pack(anchor="w")
 
         self.name_entry = tk.Entry(form_frame, width=40, font=("Arial", 10))
@@ -58,8 +58,8 @@ class BrandDialog:
             button_frame,
             text="Save",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -72,8 +72,8 @@ class BrandDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,

@@ -25,6 +25,10 @@ class CustomerService:
 
         return self.customer_dao.all_customers()
 
+    def get_all_customers_with_ids(self):
+
+        return self.customer_dao.all_customers_with_ids()
+
     def get_customer_by_id(self, customer_id):
 
         return self.customer_dao.select_customer_by_id(customer_id)

@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
-from brand_dialog import BrandDialog
+from src.ui.views.brand.brand_dialog import BrandDialog
 
 class BrandView:
     def __init__(self, parent, services):
@@ -17,7 +17,8 @@ class BrandView:
             self.parent,
             text="Brand Management",
             font=('Arial', 24, 'bold'),
-            bg="white"
+            bg="white",
+            fg="black"
         )
 
         title.pack(pady=20)
@@ -29,8 +30,8 @@ class BrandView:
             button_frame,
             text="Add Brand",
             command=self.show_add_dialog,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -42,8 +43,8 @@ class BrandView:
             button_frame,
             text="Refresh",
             command=self._load_brands,
-            bg="#2196F3",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -55,7 +56,17 @@ class BrandView:
         table_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
         columns = ("ID", "Name")
-        self.tree = ttk.Treeview(table_frame, columns=columns, show="headings", height=20)
+
+        style = ttk.Style()
+        style.theme_use('default')
+
+        style.configure("Treeview",background="white",foreground="black",fieldbackground="white",rowheight=25)
+
+        style.configure("Treeview.Heading",background="#2b2b2b",foreground="white",font=("Arial", 10, "bold"))
+
+        style.map('Treeview',background=[('selected', '#0078d7')],foreground=[('selected', 'white')])
+
+        self.tree = ttk.Treeview(table_frame, columns=columns, show="headings", height=10)
 
         self.tree.heading("ID", text="ID")
         self.tree.heading("Name", text="Brand Name")
@@ -63,7 +74,7 @@ class BrandView:
         self.tree.column("ID", width=100, anchor="center")
         self.tree.column("Name", width=400)
 
-        self.tree.tag_configure('oddrow', background='#f0f0f0')
+        self.tree.tag_configure('oddrow', background='#dbdbdb')
         self.tree.tag_configure('evenrow', background='white')
 
         scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
@@ -79,8 +90,8 @@ class BrandView:
             action_frame,
             text="Edit Selected",
             command=self.show_edit_dialog,
-            bg="#FF9800",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -92,8 +103,8 @@ class BrandView:
             action_frame,
             text="Delete Selected",
             command=self.delete_brand,
-            bg="#F44336",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,

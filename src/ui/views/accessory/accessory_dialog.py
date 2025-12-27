@@ -32,27 +32,27 @@ class AccessoryDialog:
             title_frame,
             text=title_text,
             font=("Arial", 16, "bold"),
-            bg="#FF5722",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=12)
 
         form_frame = tk.Frame(self.dialog, bg="white")
         form_frame.pack(padx=30, pady=20, fill="both", expand=True)
 
-        tk.Label(form_frame, text="Name *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w")
+        tk.Label(form_frame, text="Name *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w")
         self.name_entry = tk.Entry(form_frame, width=50, font=("Arial", 10))
         self.name_entry.pack(pady=5, fill="x")
 
-        tk.Label(form_frame, text="Description *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="Description *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w", pady=(10, 0))
         self.desc_entry = tk.Entry(form_frame, width=50, font=("Arial", 10))
         self.desc_entry.pack(pady=5, fill="x")
 
-        tk.Label(form_frame, text="Price per Day *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="Price per Day *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w", pady=(10, 0))
 
         price_frame = tk.Frame(form_frame, bg="white")
         price_frame.pack(fill="x", pady=5)
 
-        tk.Label(price_frame, text="$", font=("Arial", 12, "bold"), bg="white").pack(side="left")
+        tk.Label(price_frame, text="$", font=("Arial", 12, "bold"), bg="white", fg="black").pack(side="left")
         self.price_entry = tk.Entry(price_frame, width=15, font=("Arial", 10))
         self.price_entry.pack(side="left", padx=5)
 
@@ -67,7 +67,7 @@ class AccessoryDialog:
             form_frame,
             text="* Required fields",
             font=("Arial", 8, "italic"),
-            fg="gray",
+            fg="black",
             bg="white"
         ).pack(anchor="w", pady=(10, 0))
 
@@ -78,8 +78,8 @@ class AccessoryDialog:
             button_frame,
             text="Save",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -92,8 +92,8 @@ class AccessoryDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
