@@ -36,31 +36,30 @@ class RvDialog:
             title_frame,
             text=title_text,
             font=("Arial", 16, "bold"),
-            bg="#00BCD4",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=12)
 
         form_frame = tk.Frame(self.dialog, bg="white")
         form_frame.pack(padx=30, pady=20, fill="both", expand=True)
 
-        tk.Label(form_frame, text="License Plate (SPZ) *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w")
+        tk.Label(form_frame, text="License Plate (SPZ) *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w")
         self.spz_entry = tk.Entry(form_frame, width=50, font=("Arial", 10))
         self.spz_entry.pack(pady=5, fill="x")
 
-        tk.Label(form_frame, text="Manufacture Date * (YYYY-MM-DD):", font=("Arial", 10, "bold"), bg="white").pack(
+        tk.Label(form_frame, text="Manufacture Date * (YYYY-MM-DD):", font=("Arial", 10, "bold"), bg="white", fg="black").pack(
             anchor="w", pady=(10, 0))
         self.date_entry = tk.Entry(form_frame, width=50, font=("Arial", 10))
         self.date_entry.pack(pady=5, fill="x")
 
-        tk.Label(form_frame, text="Price per Day *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w",
-                                                                                                   pady=(10, 0))
+        tk.Label(form_frame, text="Price per Day *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w",pady=(10, 0))
         price_frame = tk.Frame(form_frame, bg="white")
         price_frame.pack(fill="x", pady=5)
         tk.Label(price_frame, text="$", font=("Arial", 12, "bold"), bg="white").pack(side="left")
         self.price_entry = tk.Entry(price_frame, width=15, font=("Arial", 10))
         self.price_entry.pack(side="left", padx=5)
 
-        tk.Label(form_frame, text="Brand *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="Brand *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w", pady=(10, 0))
         self.brand_var = tk.StringVar()
         self.brand_combo = ttk.Combobox(form_frame, textvariable=self.brand_var, state="readonly", font=("Arial", 10))
         self.brand_combo.pack(pady=5, fill="x")
@@ -69,7 +68,7 @@ class RvDialog:
         self.brands_dict = {f"{b[1]}": b[0] for b in brands}  # {name: id}
         self.brand_combo['values'] = list(self.brands_dict.keys())
 
-        tk.Label(form_frame, text="RV Type *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="RV Type *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w", pady=(10, 0))
         self.type_var = tk.StringVar()
         self.type_combo = ttk.Combobox(form_frame, textvariable=self.type_var, state="readonly", font=("Arial", 10))
         self.type_combo.pack(pady=5, fill="x")
@@ -87,8 +86,7 @@ class RvDialog:
             self.brand_var.set(self.rv_data[4])
             self.type_var.set(self.rv_data[5])
 
-        tk.Label(form_frame, text="* Required fields", font=("Arial", 8, "italic"), fg="gray", bg="white").pack(
-            anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="* Required fields", font=("Arial", 8, "italic"), fg="black", bg="white").pack(anchor="w", pady=(10, 0))
 
         button_frame = tk.Frame(self.dialog, bg="white")
         button_frame.pack(pady=15)
@@ -97,8 +95,8 @@ class RvDialog:
             button_frame,
             text="Save",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -111,8 +109,8 @@ class RvDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,

@@ -29,8 +29,8 @@ class ImportView:
             title_frame,
             text="Import Data from Files",
             font=("Arial", 18, "bold"),
-            bg="#3F51B5",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=15)
 
         content_frame = tk.Frame(self.dialog, bg="white")
@@ -41,7 +41,7 @@ class ImportView:
             text="Select the type of data to import and choose a file:",
             font=("Arial", 11),
             bg="white",
-            fg="#555"
+            fg="black"
         )
         instructions.pack(pady=(0, 15))
 
@@ -92,7 +92,8 @@ class ImportView:
             content_frame,
             text="Import Results:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         )
         result_label.pack(anchor="w", pady=(20, 5))
 
@@ -118,8 +119,8 @@ class ImportView:
             button_frame,
             text="Close",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=30,
             pady=8,
@@ -203,10 +204,7 @@ class ImportView:
             messagebox.showerror("Import Error", str(e))
 
     def import_brands(self):
-        filename = filedialog.askopenfilename(
-            title="Select Brands CSV File",
-            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")]
-        )
+        filename = filedialog.askopenfilename(title="Select Brands CSV File",filetypes=[("CSV files", "*.csv"), ("All files", "*.*")])
 
         if not filename:
             return

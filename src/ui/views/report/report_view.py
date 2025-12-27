@@ -23,7 +23,8 @@ class ReportView:
             self.parent,
             text=titles.get(self.report_type, "Report"),
             font=("Arial", 24, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         )
         title.pack(pady=20)
 
@@ -34,8 +35,8 @@ class ReportView:
             button_frame,
             text="Refresh",
             command=self._load_report,
-            bg="#2196F3",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -47,13 +48,23 @@ class ReportView:
         table_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
         columns = self._get_columns()
+
+        style = ttk.Style()
+        style.theme_use('default')
+
+        style.configure("Treeview",background="white",foreground="black",fieldbackground="white",rowheight=25)
+
+        style.configure("Treeview.Heading",background="#2b2b2b",foreground="white",font=("Arial", 10, "bold"))
+
+        style.map('Treeview',background=[('selected', '#0078d7')],foreground=[('selected', 'white')])
+
         self.tree = ttk.Treeview(table_frame, columns=columns, show="headings", height=18)
 
         for col in columns:
             self.tree.heading(col, text=col)
             self.tree.column(col, width=150)
 
-        self.tree.tag_configure('oddrow', background='#f0f0f0')
+        self.tree.tag_configure('oddrow', background='#dbdbdb')
         self.tree.tag_configure('evenrow', background='white')
 
         vsb = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)

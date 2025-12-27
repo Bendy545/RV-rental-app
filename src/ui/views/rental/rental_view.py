@@ -17,7 +17,8 @@ class RentalView:
             self.parent,
             text="Rental Management",
             font=("Arial", 24, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         )
         title.pack(pady=20)
 
@@ -28,8 +29,8 @@ class RentalView:
             button_frame,
             text="Create Rental",
             command=self.show_add_dialog,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -41,8 +42,8 @@ class RentalView:
             button_frame,
             text="Refresh",
             command=self._load_rentals,
-            bg="#2196F3",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -54,6 +55,16 @@ class RentalView:
         table_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
         columns = ("ID", "From", "To", "Created", "Price", "Status", "Paid", "Customer", "RV")
+
+        style = ttk.Style()
+        style.theme_use('default')
+
+        style.configure("Treeview",background="white",foreground="black",fieldbackground="white",rowheight=25)
+
+        style.configure("Treeview.Heading",background="#2b2b2b",foreground="white",font=("Arial", 10, "bold"))
+
+        style.map('Treeview',background=[('selected', '#0078d7')],foreground=[('selected', 'white')])
+
         self.tree = ttk.Treeview(table_frame, columns=columns, show="headings", height=15)
 
         self.tree.heading("ID", text="ID")
@@ -76,7 +87,7 @@ class RentalView:
         self.tree.column("Customer", width=180)
         self.tree.column("RV", width=100)
 
-        self.tree.tag_configure('oddrow', background='#f0f0f0')
+        self.tree.tag_configure('oddrow', background='#dbdbdb')
         self.tree.tag_configure('evenrow', background='white')
 
         vsb = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
@@ -95,10 +106,10 @@ class RentalView:
 
         tk.Button(
             action_frame,
-            text="🔍 View Details",
+            text="View Details",
             command=self.view_details,
-            bg="#9C27B0",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -110,8 +121,8 @@ class RentalView:
             action_frame,
             text="Update Status",
             command=self.update_status,
-            bg="#FF9800",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -123,8 +134,8 @@ class RentalView:
             action_frame,
             text="Mark as Paid",
             command=self.mark_as_paid,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -136,8 +147,8 @@ class RentalView:
             action_frame,
             text="Delete Selected",
             command=self.delete_rental,
-            bg="#F44336",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -215,7 +226,6 @@ class RentalView:
             messagebox.showwarning("No Selection", "Please select a rental")
             return
 
-        # Get rental ID
         item = self.tree.item(selected[0])
         rental_id = item['values'][0]
         is_paid = item['values'][6]

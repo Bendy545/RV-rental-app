@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
-from accessory_dialog import AccessoryDialog
+from src.ui.views.accessory.accessory_dialog import AccessoryDialog
 
 class AccessoryView:
     def __init__(self, parent, services):
@@ -16,7 +16,8 @@ class AccessoryView:
             self.parent,
             text="Accessory Management",
             font=("Arial", 24, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         )
         title.pack(pady=20)
 
@@ -27,8 +28,8 @@ class AccessoryView:
             button_frame,
             text="Add Accessory",
             command=self.show_add_dialog,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -40,8 +41,8 @@ class AccessoryView:
             button_frame,
             text="Refresh",
             command=self._load_accessories,
-            bg="#2196F3",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -53,6 +54,16 @@ class AccessoryView:
         table_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
         columns = ("ID", "Name", "Description", "Price/Day")
+
+        style = ttk.Style()
+        style.theme_use('default')
+
+        style.configure("Treeview",background="white",foreground="black",fieldbackground="white",rowheight=25)
+
+        style.configure("Treeview.Heading",background="#2b2b2b",foreground="white",font=("Arial", 10, "bold"))
+
+        style.map('Treeview',background=[('selected', '#0078d7')],foreground=[('selected', 'white')])
+
         self.tree = ttk.Treeview(table_frame, columns=columns, show="headings", height=18)
 
         self.tree.heading("ID", text="ID")
@@ -65,7 +76,7 @@ class AccessoryView:
         self.tree.column("Description", width=350)
         self.tree.column("Price/Day", width=100, anchor="center")
 
-        self.tree.tag_configure('oddrow', background='#f0f0f0')
+        self.tree.tag_configure('oddrow', background='#dbdbdb')
         self.tree.tag_configure('evenrow', background='white')
 
         vsb = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
@@ -86,8 +97,8 @@ class AccessoryView:
             action_frame,
             text="Edit Selected",
             command=self.show_edit_dialog,
-            bg="#FF9800",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -99,8 +110,8 @@ class AccessoryView:
             action_frame,
             text="Delete Selected",
             command=self.delete_accessory,
-            bg="#F44336",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,

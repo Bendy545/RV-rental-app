@@ -75,8 +75,8 @@ class MainWindow:
                 width=18,
                 height=2,
                 font=("Arial", 10),
-                bg="#3b3b3b",
-                fg="white",
+                bg="white",
+                fg="black",
                 relief="flat",
                 cursor="hand2",
                 activebackground="#505050",
@@ -98,7 +98,8 @@ class MainWindow:
             self.content_frame,
             text="Dashboard",
             font=("Arial", 24, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         )
         title.pack(pady=20)
 

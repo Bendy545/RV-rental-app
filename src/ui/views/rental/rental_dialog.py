@@ -32,8 +32,8 @@ class RentalDialog:
             title_frame,
             text="Create New Rental",
             font=("Arial", 16, "bold"),
-            bg="#673AB7",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=12)
 
         canvas = tk.Canvas(self.dialog, bg="white")
@@ -51,7 +51,7 @@ class RentalDialog:
         form_frame = tk.Frame(scrollable_frame, bg="white")
         form_frame.pack(padx=30, pady=20, fill="both", expand=True)
 
-        tk.Label(form_frame, text="Customer *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w")
+        tk.Label(form_frame, text="Customer *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w")
         self.customer_var = tk.StringVar()
         self.customer_combo = ttk.Combobox(form_frame, textvariable=self.customer_var, state="readonly",font=("Arial", 10), width=60)
         self.customer_combo.pack(pady=5, fill="x")
@@ -61,7 +61,7 @@ class RentalDialog:
         self.customers_dict = {f"{c[1]} {c[2]} ({c[3]})": c[0] for c in customers_full}
         self.customer_combo['values'] = list(self.customers_dict.keys())
 
-        tk.Label(form_frame, text="RV *:", font=("Arial", 10, "bold"), bg="white").pack(anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="RV *:", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w", pady=(10, 0))
         self.rv_var = tk.StringVar()
         self.rv_combo = ttk.Combobox(form_frame, textvariable=self.rv_var, state="readonly", font=("Arial", 10),width=60)
         self.rv_combo.pack(pady=5, fill="x")
@@ -70,15 +70,12 @@ class RentalDialog:
         self.rvs_dict = {f"{rv['spz']} - {rv['brand']} {rv['type']}": rv['id'] for rv in rvs}
         self.rv_combo['values'] = list(self.rvs_dict.keys())
 
-        tk.Label(form_frame, text="Date From * (YYYY-MM-DD):", font=("Arial", 10, "bold"), bg="white").pack(anchor="w",
-                                                                                                            pady=(10,
-                                                                                                                  0))
+        tk.Label(form_frame, text="Date From * (YYYY-MM-DD):", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w",pady=(10,0))
         self.date_from_entry = tk.Entry(form_frame, font=("Arial", 10), width=63)
         self.date_from_entry.pack(pady=5, fill="x")
         self.date_from_entry.insert(0, date.today().strftime("%Y-%m-%d"))
 
-        tk.Label(form_frame, text="Date To * (YYYY-MM-DD):", font=("Arial", 10, "bold"), bg="white").pack(anchor="w",
-                                                                                                          pady=(10, 0))
+        tk.Label(form_frame, text="Date To * (YYYY-MM-DD):", font=("Arial", 10, "bold"), bg="white", fg="black").pack(anchor="w",pady=(10, 0))
         self.date_to_entry = tk.Entry(form_frame, font=("Arial", 10), width=63)
         self.date_to_entry.pack(pady=5, fill="x")
 
@@ -87,7 +84,7 @@ class RentalDialog:
             text="Select Accessories (Optional):",
             font=("Arial", 11, "bold"),
             bg="white",
-            fg="#673AB7"
+            fg="black"
         ).pack(anchor="w", pady=(15, 5))
 
         acc_container = tk.Frame(form_frame, relief="groove", borderwidth=2, bg="white")
@@ -125,11 +122,11 @@ class RentalDialog:
                     acc_frame,
                     text=f"({acc_desc})",
                     font=("Arial", 8, "italic"),
-                    fg="gray",
+                    fg="black",
                     bg="white"
                 ).pack(side="left", padx=(5, 10))
 
-                tk.Label(acc_frame, text="Qty:", font=("Arial", 8), bg="white").pack(side="left")
+                tk.Label(acc_frame, text="Qty:", font=("Arial", 8), bg="white", fg="black").pack(side="left")
                 qty_entry = tk.Entry(acc_frame, width=5, font=("Arial", 9))
                 qty_entry.insert(0, "1")
                 qty_entry.pack(side="left", padx=5)
@@ -139,12 +136,11 @@ class RentalDialog:
                 acc_container,
                 text="No accessories available",
                 font=("Arial", 9, "italic"),
-                fg="gray",
+                fg="black",
                 bg="white"
             ).pack(padx=10, pady=10)
 
-        tk.Label(form_frame, text="* Required fields", font=("Arial", 8, "italic"), fg="gray", bg="white").pack(
-            anchor="w", pady=(10, 0))
+        tk.Label(form_frame, text="* Required fields", font=("Arial", 8, "italic"), fg="black", bg="white").pack(anchor="w", pady=(10, 0))
 
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
@@ -156,8 +152,8 @@ class RentalDialog:
             button_frame,
             text="Create Rental",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -170,8 +166,8 @@ class RentalDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -278,8 +274,8 @@ class StatusDialog:
             title_frame,
             text="Update Rental Status",
             font=("Arial", 14, "bold"),
-            bg="#FF9800",
-            fg="white"
+            bg="white",
+            fg="black"
         ).pack(pady=12)
 
         form_frame = tk.Frame(self.dialog, bg="white")
@@ -290,14 +286,15 @@ class StatusDialog:
             text=f"Current Status: {current_status}",
             font=("Arial", 10),
             bg="white",
-            fg="#666"
+            fg="black"
         ).pack(pady=(0, 15))
 
         tk.Label(
             form_frame,
             text="Select New Status:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).pack(anchor="w")
 
         self.status_var = tk.StringVar(value=current_status)
@@ -320,8 +317,8 @@ class StatusDialog:
             button_frame,
             text="Update",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=20,
             pady=6,
@@ -334,8 +331,8 @@ class StatusDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=20,
             pady=6,

@@ -105,12 +105,12 @@ class Rental:
         acc_sql = """
         SELECT a.NAME, ar.AMOUNT, ar.PRICE_AT_RENT
         FROM accessory_rental ar
-        JOIN accessory a ON ar.ID_CUSTOMER = a.ID
+        JOIN accessory a ON ar.ID_ACCESSORY = a.ID
             WHERE ar.ID_RENTAL = :id
         """
 
         cursor.execute(acc_sql, {
-            "rental_id": id,
+            "id": id,
         })
         accessories = cursor.fetchall()
         cursor.close()

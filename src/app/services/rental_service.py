@@ -116,4 +116,4 @@ class RentalService:
 
     def get_rental_details(self, rental_id):
 
-        return self.rental_dao.get_rental_with_accessories(rental_id)
+        return self.rental_dao.select_rental_with_accessories(rental_id)

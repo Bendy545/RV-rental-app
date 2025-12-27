@@ -24,7 +24,7 @@ class BrandService:
 
     def get_all_brands_with_ids(self):
 
-        return self.brand_dao.get_brands_with_ids()
+        return self.brand_dao.select_brands_with_ids()
 
     def get_brand_by_id(self, brand_id):
 

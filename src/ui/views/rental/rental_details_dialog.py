@@ -37,8 +37,8 @@ class RentalDetailsDialog:
                 title_frame,
                 text=f"Rental Details (ID: {self.rental_id})",
                 font=("Arial", 14, "bold"),
-                bg="#9C27B0",
-                fg="white"
+                bg="white",
+                fg="black"
             ).pack(pady=12)
 
             content_frame = tk.Frame(self.dialog, bg="white")
@@ -62,6 +62,7 @@ class RentalDetailsDialog:
                 text=info_text,
                 font=("Courier", 10),
                 bg="white",
+                fg="black",
                 justify="left"
             ).pack(anchor="w", pady=(0, 15))
 
@@ -70,7 +71,7 @@ class RentalDetailsDialog:
                 text="Included Accessories:",
                 font=("Arial", 11, "bold"),
                 bg="white",
-                fg="#9C27B0"
+                fg="black"
             ).pack(anchor="w", pady=(10, 5))
 
             accessories = details['accessories']
@@ -105,7 +106,7 @@ class RentalDetailsDialog:
                     text=f"Total Accessories: ${total_acc_price:.2f}",
                     font=("Arial", 9, "bold"),
                     bg="white",
-                    fg="#9C27B0"
+                    fg="black"
                 ).pack(anchor="e", pady=(5, 0))
             else:
                 tk.Label(
@@ -113,7 +114,7 @@ class RentalDetailsDialog:
                     text="No accessories included in this rental",
                     font=("Arial", 9, "italic"),
                     bg="white",
-                    fg="gray"
+                    fg="black"
                 ).pack(anchor="w")
 
             button_frame = tk.Frame(self.dialog, bg="white")
@@ -123,8 +124,8 @@ class RentalDetailsDialog:
                 button_frame,
                 text="Close",
                 command=self.dialog.destroy,
-                bg="#757575",
-                fg="white",
+                bg="white",
+                fg="black",
                 font=("Arial", 10, "bold"),
                 padx=30,
                 pady=8,

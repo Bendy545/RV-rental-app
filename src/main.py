@@ -1,15 +1,8 @@
-"""
-Main Application Entry Point
-Initializes all layers and starts the desktop application
-"""
-
 import sys
 from tkinter import messagebox
 
-# Import configuration
 from src.db.config_load import load_config, ConfigError
 
-# Import Database Layer
 from src.db.database import Database
 from src.db.dao.rental import Rental
 from src.db.dao.rv import Rv

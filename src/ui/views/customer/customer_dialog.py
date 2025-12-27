@@ -31,8 +31,8 @@ class CustomerDialog:
             title_frame,
             text=title_text,
             font=("Arial", 18, "bold"),
-            bg="#2196F3",
-            fg="white"
+            bg="white",
+            fg="black"
         )
         title.pack(pady=15)
 
@@ -43,7 +43,8 @@ class CustomerDialog:
             form_frame,
             text="Name *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).grid(row=0, column=0, sticky="w", pady=10)
 
         self.name_entry = tk.Entry(form_frame, width=30, font=("Arial", 10))
@@ -53,7 +54,8 @@ class CustomerDialog:
             form_frame,
             text="Surname *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).grid(row=1, column=0, sticky="w", pady=10)
 
         self.surname_entry = tk.Entry(form_frame, width=30, font=("Arial", 10))
@@ -63,7 +65,8 @@ class CustomerDialog:
             form_frame,
             text="Email *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).grid(row=2, column=0, sticky="w", pady=10)
 
         self.email_entry = tk.Entry(form_frame, width=30, font=("Arial", 10))
@@ -73,7 +76,8 @@ class CustomerDialog:
             form_frame,
             text="Phone *:",
             font=("Arial", 10, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         ).grid(row=3, column=0, sticky="w", pady=10)
 
         self.tel_entry = tk.Entry(form_frame, width=30, font=("Arial", 10))
@@ -92,7 +96,7 @@ class CustomerDialog:
             form_frame,
             text="* Required fields",
             font=("Arial", 8, "italic"),
-            fg="gray",
+            fg="black",
             bg="white"
         )
         note.grid(row=4, column=0, columnspan=2, sticky="w", pady=(5, 0))
@@ -104,8 +108,8 @@ class CustomerDialog:
             button_frame,
             text="Save",
             command=self.save,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,
@@ -119,8 +123,8 @@ class CustomerDialog:
             button_frame,
             text="Cancel",
             command=self.dialog.destroy,
-            bg="#757575",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=25,
             pady=8,

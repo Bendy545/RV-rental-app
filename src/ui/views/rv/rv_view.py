@@ -16,7 +16,8 @@ class RvView:
             self.parent,
             text="RV Management",
             font=("Arial", 24, "bold"),
-            bg="white"
+            bg="white",
+            fg="black"
         )
 
         title.pack(pady=20)
@@ -28,8 +29,8 @@ class RvView:
             button_frame,
             text="Add RV",
             command=self.show_add_dialog,
-            bg="#4CAF50",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -41,8 +42,8 @@ class RvView:
             button_frame,
             text="Refresh",
             command=self._load_rvs,
-            bg="#2196F3",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -54,6 +55,16 @@ class RvView:
         table_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
         columns = ("ID", "SPZ", "Manufacture Date", "Price/Day", "Brand", "Type")
+
+        style = ttk.Style()
+        style.theme_use('default')
+
+        style.configure("Treeview",background="white",foreground="black",fieldbackground="white",rowheight=25)
+
+        style.configure("Treeview.Heading",background="#2b2b2b",foreground="white",font=("Arial", 10, "bold"))
+
+        style.map('Treeview',background=[('selected', '#0078d7')],foreground=[('selected', 'white')])
+
         self.tree = ttk.Treeview(table_frame, columns=columns, show="headings", height=15)
 
         self.tree.heading("ID", text="ID")
@@ -70,7 +81,7 @@ class RvView:
         self.tree.column("Brand", width=120)
         self.tree.column("Type", width=180)
 
-        self.tree.tag_configure('oddrow', background='#f0f0f0')
+        self.tree.tag_configure('oddrow', background='#dbdbdb')
         self.tree.tag_configure('evenrow', background='white')
 
         vsb = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
@@ -91,8 +102,8 @@ class RvView:
             action_frame,
             text="Edit Selected",
             command=self.show_edit_dialog,
-            bg="#FF9800",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
@@ -104,8 +115,8 @@ class RvView:
             action_frame,
             text="Delete Selected",
             command=self.delete_rv,
-            bg="#F44336",
-            fg="white",
+            bg="white",
+            fg="black",
             font=("Arial", 10, "bold"),
             padx=15,
             pady=8,
