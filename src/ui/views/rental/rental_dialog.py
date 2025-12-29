@@ -11,15 +11,15 @@ class RentalDialog:
 
         self.dialog = tk.Toplevel(parent)
         self.dialog.title("Create New Rental")
-        self.dialog.geometry("600x650")
+        self.dialog.geometry("600x700")
         self.dialog.transient(parent)
         self.dialog.grab_set()
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
         x = (self.dialog.winfo_screenwidth() // 2) - (600 // 2)
-        y = (self.dialog.winfo_screenheight() // 2) - (650 // 2)
-        self.dialog.geometry(f"600x650+{x}+{y}")
+        y = (self.dialog.winfo_screenheight() // 2) - (700 // 2)
+        self.dialog.geometry(f"600x700+{x}+{y}")
 
         self._create_form()
 
@@ -36,8 +36,12 @@ class RentalDialog:
             fg="black"
         ).pack(pady=12)
 
-        canvas = tk.Canvas(self.dialog, bg="white")
-        scrollbar = ttk.Scrollbar(self.dialog, orient="vertical", command=canvas.yview)
+        content_frame = tk.Frame(self.dialog, bg="white")
+        content_frame.pack(fill="both", expand=True)
+
+        canvas = tk.Canvas(content_frame, bg="white")
+        scrollbar = ttk.Scrollbar(content_frame, orient="vertical", command=canvas.yview)
+
         scrollable_frame = tk.Frame(canvas, bg="white")
 
         scrollable_frame.bind(
