@@ -8,15 +8,15 @@ class RentalDetailsDialog:
 
         self.dialog = tk.Toplevel(parent)
         self.dialog.title("Rental Details")
-        self.dialog.geometry("500x450")
+        self.dialog.geometry("600x650")
         self.dialog.transient(parent)
         self.dialog.grab_set()
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
-        x = (self.dialog.winfo_screenwidth() // 2) - (500 // 2)
-        y = (self.dialog.winfo_screenheight() // 2) - (450 // 2)
-        self.dialog.geometry(f"500x450+{x}+{y}")
+        x = (self.dialog.winfo_screenwidth() // 2) - (600 // 2)
+        y = (self.dialog.winfo_screenheight() // 2) - (650 // 2)
+        self.dialog.geometry(f"600x650+{x}+{y}")
 
         self._load_and_display()
 
@@ -130,7 +130,8 @@ class RentalDetailsDialog:
                 padx=30,
                 pady=8,
                 cursor="hand2",
-                relief="flat"
+                relief="solid",
+                borderwidth=1
             ).pack()
 
         except Exception as e:

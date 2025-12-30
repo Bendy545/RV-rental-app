@@ -35,7 +35,8 @@ class RvView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -48,7 +49,8 @@ class RvView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         table_frame = tk.Frame(self.parent, bg="white")
@@ -108,7 +110,8 @@ class RvView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -121,7 +124,8 @@ class RvView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
     def _load_rvs(self):

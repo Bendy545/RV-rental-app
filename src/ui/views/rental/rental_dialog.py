@@ -163,7 +163,8 @@ class RentalDialog:
             pady=8,
             width=12,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -177,7 +178,8 @@ class RentalDialog:
             pady=8,
             width=12,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
     def save(self):
@@ -257,15 +259,15 @@ class StatusDialog:
 
         self.dialog = tk.Toplevel(parent)
         self.dialog.title("Update Rental Status")
-        self.dialog.geometry("350x250")
+        self.dialog.geometry("350x450")
         self.dialog.transient(parent)
         self.dialog.grab_set()
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
         x = (self.dialog.winfo_screenwidth() // 2) - (350 // 2)
-        y = (self.dialog.winfo_screenheight() // 2) - (250 // 2)
-        self.dialog.geometry(f"350x250+{x}+{y}")
+        y = (self.dialog.winfo_screenheight() // 2) - (450 // 2)
+        self.dialog.geometry(f"350x450+{x}+{y}")
 
         self._create_ui(current_status)
 

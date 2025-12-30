@@ -9,15 +9,15 @@ class CustomerDialog:
 
         self.dialog = tk.Toplevel(parent)
         self.dialog.title("Add Customer" if mode == "add" else "Edit Customer")
-        self.dialog.geometry("450x350")
+        self.dialog.geometry("500x400")
         self.dialog.transient(parent)
         self.dialog.grab_set()
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
-        x = (self.dialog.winfo_screenwidth() // 2) - (450 // 2)
-        y = (self.dialog.winfo_screenheight() // 2) - (350 // 2)
-        self.dialog.geometry(f"450x350+{x}+{y}")
+        x = (self.dialog.winfo_screenwidth() // 2) - (500 // 2)
+        y = (self.dialog.winfo_screenheight() // 2) - (400 // 2)
+        self.dialog.geometry(f"500x400+{x}+{y}")
 
         self._create_form()
 
@@ -115,7 +115,8 @@ class CustomerDialog:
             pady=8,
             width=12,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         )
         save_btn.pack(side="left", padx=5)
 
@@ -130,7 +131,8 @@ class CustomerDialog:
             pady=8,
             width=12,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         )
         cancel_btn.pack(side="left", padx=5)
 

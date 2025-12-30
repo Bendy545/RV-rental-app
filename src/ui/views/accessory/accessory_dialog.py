@@ -10,15 +10,15 @@ class AccessoryDialog:
 
         self.dialog = tk.Toplevel(parent)
         self.dialog.title("Add Accessory" if mode == "add" else "Edit Accessory")
-        self.dialog.geometry("450x350")
+        self.dialog.geometry("550x450")
         self.dialog.transient(parent)
         self.dialog.grab_set()
         self.dialog.resizable(False, False)
 
         self.dialog.update_idletasks()
-        x = (self.dialog.winfo_screenwidth() // 2) - (450 // 2)
-        y = (self.dialog.winfo_screenheight() // 2) - (350 // 2)
-        self.dialog.geometry(f"450x350+{x}+{y}")
+        x = (self.dialog.winfo_screenwidth() // 2) - (550 // 2)
+        y = (self.dialog.winfo_screenheight() // 2) - (450 // 2)
+        self.dialog.geometry(f"550x450+{x}+{y}")
 
         self._create_form()
 
@@ -85,7 +85,8 @@ class AccessoryDialog:
             pady=8,
             width=10,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -99,7 +100,8 @@ class AccessoryDialog:
             pady=8,
             width=10,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         self.name_entry.focus()

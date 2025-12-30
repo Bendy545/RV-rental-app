@@ -7,7 +7,7 @@ class MainWindow:
 
         self.root = tk.Tk()
         self.root.title("RV Rental Management System")
-        self.root.geometry("1200x700")
+        self.root.geometry("1200x800")
         self.root.configure(bg="#f0f0f0")
 
         self._create_menu()

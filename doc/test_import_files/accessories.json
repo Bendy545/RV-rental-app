@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Camping table",
+    "description": "Foldable camping table",
+    "price_for_day": 5.00
+  },
+  {
+    "name": "Bike rack",
+    "description": "Rack for 2 bikes",
+    "price_for_day": 8.50
+  },
+  {
+    "name": "Gas grill",
+    "description": "Portable gas grill",
+    "price_for_day": 7.00
+  },
+  {
+    "name": "Outdoor chairs",
+    "description": "Set of 2 folding chairs",
+    "price_for_day": 4.50
+  }
+]

@@ -34,7 +34,8 @@ class CustomerView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         )
         add_btn.pack(side="left", padx=5)
 
@@ -48,7 +49,8 @@ class CustomerView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         )
         refresh_btn.pack(side="left", padx=5)
 
@@ -107,7 +109,8 @@ class CustomerView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         )
         edit_btn.pack(side="left", padx=5)
 
@@ -121,7 +124,8 @@ class CustomerView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         )
         delete_btn.pack(side="left", padx=5)
 
