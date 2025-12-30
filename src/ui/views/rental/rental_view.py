@@ -35,7 +35,8 @@ class RentalView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -48,7 +49,8 @@ class RentalView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         table_frame = tk.Frame(self.parent, bg="white")
@@ -114,7 +116,8 @@ class RentalView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -127,7 +130,8 @@ class RentalView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -140,7 +144,8 @@ class RentalView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -153,7 +158,8 @@ class RentalView:
             padx=15,
             pady=8,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
     def _load_rentals(self):

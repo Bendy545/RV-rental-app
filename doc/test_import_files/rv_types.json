@@ -1,0 +1,18 @@
+[
+  {
+    "name": "Campervan",
+    "description": "Small compact camper van"
+  },
+  {
+    "name": "Alcove",
+    "description": "Family RV with sleeping alcove"
+  },
+  {
+    "name": "Integrated",
+    "description": "Luxury fully integrated RV"
+  },
+  {
+    "name": "Semi-integrated",
+    "description": "Mid-class semi-integrated RV"
+  }
+]

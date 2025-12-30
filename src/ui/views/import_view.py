@@ -33,8 +33,31 @@ class ImportView:
             fg="black"
         ).pack(pady=15)
 
-        content_frame = tk.Frame(self.dialog, bg="white")
-        content_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        container = tk.Frame(self.dialog, bg="white")
+        container.pack(fill="both", expand=True)
+
+        canvas = tk.Canvas(container, bg="white", highlightthickness=0)
+        canvas.pack(side="left", fill="both", expand=True)
+
+        scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+        scrollbar.pack(side="right", fill="y")
+
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        content_frame = tk.Frame(canvas, bg="white")
+        canvas.create_window((0, 0), window=content_frame, anchor="nw")
+
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+
+        def on_configure(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+
+
+
+        content_frame.bind("<Configure>", on_configure)
 
         instructions = tk.Label(
             content_frame,

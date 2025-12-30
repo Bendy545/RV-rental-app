@@ -8,6 +8,11 @@ project/
 ├── requirements.txt
 ├── README.md
 ├── doc/
+    ├── test_import_files/
+        ├── accessories.json
+        ├── brands.csv
+        ├── customers.csv
+        └── rv_types.json
     ├── diagram.png
     ├── example1.png
     └── example2.png

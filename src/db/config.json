@@ -1,7 +1,7 @@
 {
   "user": "system",
-  "password": "student",
+  "password": "Bulik123",
   "host": "localhost",
-  "port": 1521,
+  "port": 1522,
   "service_name": "XE"
 }

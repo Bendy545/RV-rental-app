@@ -88,7 +88,8 @@ class RvTypeDialog:
             pady=8,
             width=10,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         tk.Button(
@@ -102,7 +103,8 @@ class RvTypeDialog:
             pady=8,
             width=10,
             cursor="hand2",
-            relief="flat"
+            relief="solid",
+            borderwidth=1
         ).pack(side="left", padx=5)
 
         self.name_entry.focus()
