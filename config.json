@@ -1,0 +1,7 @@
+{
+  "user": "system",
+  "password": "student",
+  "host": "localhost",
+  "port": 1522,
+  "service_name": "XE"
+}
