@@ -2,6 +2,6 @@
   "user": "system",
   "password": "student",
   "host": "localhost",
-  "port": 1522,
+  "port": 1521,
   "service_name": "XE"
 }
