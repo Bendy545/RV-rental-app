@@ -23,6 +23,14 @@ class AccessoryDialog:
         self._create_form()
 
     def _create_form(self):
+        """
+        Creates the accessory form UI.
+
+        The form contains input fields for:
+        - Accessory name
+        - Description
+        - Price per day
+        """
         title_text = "Add New Accessory" if self.mode == "add" else "Edit Accessory"
         title_frame = tk.Frame(self.dialog, bg="#FF5722", height=50)
         title_frame.pack(fill="x")
@@ -107,6 +115,13 @@ class AccessoryDialog:
         self.name_entry.focus()
 
     def save(self):
+        """
+        Validates form input and saves the accessory.
+
+        Raises:
+            ValueError: If the price value is invalid.
+            Exception: For any unexpected errors during saving.
+        """
         name = self.name_entry.get().strip()
         description = self.desc_entry.get().strip()
         price_str = self.price_entry.get().strip()

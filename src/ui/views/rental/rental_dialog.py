@@ -24,6 +24,15 @@ class RentalDialog:
         self._create_form()
 
     def _create_form(self):
+        """
+        Creates rental creation form UI.
+
+        The form allows the user to:
+        - Select a customer
+        - Select an RV
+        - Enter rental start and end dates
+        - Select optional accessories and their quantities
+        """
         title_frame = tk.Frame(self.dialog, bg="#673AB7", height=50)
         title_frame.pack(fill="x")
         title_frame.pack_propagate(False)
@@ -183,6 +192,13 @@ class RentalDialog:
         ).pack(side="left", padx=5)
 
     def save(self):
+        """
+        Validates form input and creates a new rental.
+
+        Raises:
+            ValueError: If validation or rental creation fails.
+            Exception: For any unexpected errors during the process.
+        """
         customer_str = self.customer_var.get()
         rv_str = self.rv_var.get()
         date_from_str = self.date_from_entry.get().strip()
@@ -272,6 +288,12 @@ class StatusDialog:
         self._create_ui(current_status)
 
     def _create_ui(self, current_status):
+        """
+        Creates the rental status selection UI.
+
+        Displays the current rental status and allows the user
+        to select a new status from predefined options.
+        """
         title_frame = tk.Frame(self.dialog, bg="#FF9800", height=50)
         title_frame.pack(fill="x")
         title_frame.pack_propagate(False)
@@ -348,5 +370,10 @@ class StatusDialog:
         ).pack(side="left", padx=5)
 
     def save(self):
+        """
+        Saves the selected rental status.
+
+        Stores the selected status and closes the dialog.
+        """
         self.new_status = self.status_var.get()
         self.dialog.destroy()

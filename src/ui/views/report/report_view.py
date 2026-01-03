@@ -12,6 +12,11 @@ class ReportView:
         self._load_report()
 
     def _create_ui(self):
+        """
+        Creates UI elements for ReportView window
+
+        :return: ReportView UI elements
+        """
         titles = {
             'revenue': "Revenue by Brand Report",
             'customer_stats': "Customer Statistics Report",
@@ -79,6 +84,9 @@ class ReportView:
         table_frame.grid_columnconfigure(0, weight=1)
 
     def _get_columns(self):
+        """
+        Returns table column definitions based on report type.
+        """
         columns_map = {
             'revenue': ("Brand", "Total Rentals", "Total Revenue", "Avg Price", "Min Price", "Max Price"),
             'customer_stats': ("Customer", "Email", "Phone", "Rentals", "Total Spent", "Avg Days", "Last Rental"),
@@ -88,6 +96,14 @@ class ReportView:
         return columns_map.get(self.report_type, ("Data",))
 
     def _load_report(self):
+        """
+        Loads report data and displays it in the table.
+
+        Retrieves data from the report service based on the selected
+        report type, formats the data, and inserts it into the table.
+
+        Displays an error message if loading fails.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -112,6 +128,18 @@ class ReportView:
             messagebox.showerror("Error", f"Error loading report: {str(e)}")
 
     def _format_row(self, row):
+        """
+        Formats a single report row for display.
+
+        Converts None values to 'N/A' and formats numeric values
+        for better readability.
+
+        Args:
+            row (iterable): Raw data row from the report service.
+
+        Returns:
+            list[str]: Formatted row values as strings.
+        """
         formatted = []
         for value in row:
             if value is None:

@@ -16,6 +16,9 @@ class MainWindow:
         self.show_dashboard()
 
     def _create_menu(self):
+        """
+        Creates the application menu bar.
+        """
         menubar = tk.Menu(self.root)
         self.root.config(menu=menubar)
 
@@ -42,6 +45,13 @@ class MainWindow:
         reports_menu.add_command(label="RV Utilization", command=self.show_rv_utilization)
 
     def _create_main_layout(self):
+        """
+        Creates the main layout of the application.
+
+        Includes:
+        - Sidebar navigation
+        - Main content area for views
+        """
         self.sidebar = tk.Frame(self.root, width=200, bg="#2b2b2b")
         self.sidebar.pack(side="left", fill="y")
         self.sidebar.pack_propagate(False)
@@ -88,10 +98,24 @@ class MainWindow:
         self.content_frame.pack(side="right", fill="both", expand=True, padx=10, pady=10)
 
     def clear_content(self):
+        """
+        Clears the main content frame.
+
+        Removes all widgets before loading a new view.
+        """
         for widget in self.content_frame.winfo_children():
             widget.destroy()
 
     def show_dashboard(self):
+        """
+        Displays the dashboard view.
+
+        Shows key statistics such as:
+        - Total RVs
+        - Total customers
+        - Active rentals
+        - Total rentals
+        """
         self.clear_content()
 
         title = tk.Label(
@@ -127,6 +151,9 @@ class MainWindow:
             messagebox.showerror("Error", f"Error loading dashboard: {str(e)}")
 
     def _create_stat_card(self, parent, label, value, color, position):
+        """
+        Creates a statistic card for the dashboard.
+        """
         row = position // 2
         col = position % 2
 
@@ -198,8 +225,20 @@ class MainWindow:
         ImportView(self.root, self.services)
 
     def run(self):
+        """
+        Starts the main event loop.
+        """
         self.root.mainloop()
 
 
 def create_application(services):
+
+    """
+    Creates and returns the main application instance.
+
+    :param services: Dictionary of application services.
+
+    Returns:
+        MainWindow: Initialized main window instance.
+    """
     return MainWindow(services)

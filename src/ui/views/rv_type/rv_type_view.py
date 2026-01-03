@@ -12,6 +12,11 @@ class RvTypeView:
         self._load_rv_types()
 
     def _create_ui(self):
+        """
+        Creates UI elements for RvTypeView window.
+
+        :return: RvTypeView UI elements.
+        """
         title = tk.Label(self.parent, text="Rv Type Management", font=('Arial', 24, "bold"), bg="white")
         title.pack(pady=20)
 
@@ -116,6 +121,12 @@ class RvTypeView:
         ).pack(side="left", padx=5)
 
     def _load_rv_types(self):
+        """
+        Loads RvTypes from database and displays them in the table
+
+        Raises:
+            Exception: If an error occurs while retrieving data.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -130,11 +141,19 @@ class RvTypeView:
             messagebox.showerror("Error", f"Error loading RV types: {str(e)}")
 
     def show_add_dialog(self):
+        """
+        Opens a dialog window for adding a new RV type.
+        """
         dialog = RvTypeDialog(self.parent, self.rv_type_service, mode="add")
         self.parent.wait_window(dialog.dialog)
         self._load_rv_types()
 
     def show_edit_dialog(self):
+        """
+        Opens a dialog window for editing an existing RvType
+
+        Displays a warning if no RvType is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No selection", "Please select an RV type to edit")
@@ -148,6 +167,11 @@ class RvTypeView:
         self._load_rv_types()
 
     def delete_rv_type(self):
+        """
+        Deletes the selected RvType after user confirmation.
+
+        Displays a warning if no RvType is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No selection", "Please select an RV type to delete")

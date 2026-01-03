@@ -21,6 +21,10 @@ class ImportView:
         self._create_ui()
 
     def _create_ui(self):
+        """
+        Creates UI elements for ImportView
+        :return: ImportView UI elements
+        """
         title_frame = tk.Frame(self.dialog, bg="#3F51B5", height=60)
         title_frame.pack(fill="x")
         title_frame.pack_propagate(False)
@@ -152,6 +156,17 @@ class ImportView:
         ).pack()
 
     def _create_import_section(self, parent, title, description, format_info, command, color, row):
+        """
+        Creates a single import section with description and action button.
+
+        :param parent: Parent container.
+        :param title: Section title.
+        :param description: Short description of the import.
+        :param format_info: Information about required file format.
+        :param command: Function executed when import button is clicked.
+        :param color: Button and title accent color.
+        :param row: Row index for grid placement.
+        """
         section_frame = tk.Frame(parent, bg="white", relief="ridge", borderwidth=1)
         section_frame.grid(row=row, column=0, sticky="ew", pady=5)
         parent.grid_columnconfigure(0, weight=1)
@@ -197,6 +212,9 @@ class ImportView:
         ).pack(anchor="w")
 
     def import_customers(self):
+        """
+        Imports customers from a CSV file.
+        """
         filename = filedialog.askopenfilename(
             title="Select Customers CSV File",
             filetypes=[("CSV files", "*.csv"), ("All files", "*.*")]
@@ -227,6 +245,9 @@ class ImportView:
             messagebox.showerror("Import Error", str(e))
 
     def import_brands(self):
+        """
+        Imports brands from a CSV file.
+        """
         filename = filedialog.askopenfilename(title="Select Brands CSV File",filetypes=[("CSV files", "*.csv"), ("All files", "*.*")])
 
         if not filename:
@@ -254,6 +275,9 @@ class ImportView:
             messagebox.showerror("Import Error", str(e))
 
     def import_accessories(self):
+        """
+        Imports accessories from a JSON file.
+        """
         filename = filedialog.askopenfilename(
             title="Select Accessories JSON File",
             filetypes=[("JSON files", "*.json"), ("All files", "*.*")]
@@ -284,6 +308,9 @@ class ImportView:
             messagebox.showerror("Import Error", str(e))
 
     def import_rv_types(self):
+        """
+        Imports rv_types from a JSON file.
+        """
         filename = filedialog.askopenfilename(
             title="Select RV Types JSON File",
             filetypes=[("JSON files", "*.json"), ("All files", "*.*")]

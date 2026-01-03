@@ -21,6 +21,19 @@ class RentalDetailsDialog:
         self._load_and_display()
 
     def _load_and_display(self):
+        """
+        Loads rental details and displays them in the dialog.
+
+        Retrieves rental information and included accessories from
+        the rental service. If the rental does not exist, an error
+        message is displayed and the dialog is closed.
+
+        Displays:
+        - Rental period and creation date
+        - Rental price, status, and payment information
+        - Customer email and RV identifier
+        - List of included accessories with quantities and prices
+        """
         try:
             details = self.rental_service.get_rental_details(self.rental_id)
 

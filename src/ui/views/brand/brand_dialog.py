@@ -20,6 +20,12 @@ class BrandDialog:
         self._create_form()
 
     def _create_form(self):
+        """
+        Creates the brand form UI
+
+        The form contains input fields for:
+        - Brand name
+        """
         title_text = "Add new brand" if self.mode == "add" else "Edit brand"
         title_frame = tk.Frame(self.dialog, bg="#4CAF50", height=50)
         title_frame.pack(fill="x")
@@ -87,6 +93,13 @@ class BrandDialog:
         self.name_entry.focus()
 
     def save(self):
+        """
+        Validates form input and saves the brand.
+
+        Raises:
+            ValueError: If the brand name is invalid.
+            Exception: For any unexpected errors during saving.
+        """
         name = self.name_entry.get().strip()
 
         if not name:

@@ -12,7 +12,11 @@ class BrandView:
         self._load_brands()
 
     def _create_ui(self):
+        """
+        Creates UI elements for BrandView window
 
+        :return: BrandView UI elements
+        """
         title = tk.Label(
             self.parent,
             text="Brand Management",
@@ -117,6 +121,12 @@ class BrandView:
         ).pack(side="left", padx=5)
 
     def _load_brands(self):
+        """
+        Loads brands from the database and displays them in the table.
+
+        Raises:
+            Exception: If an error occurs while retrieving data.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -132,11 +142,19 @@ class BrandView:
 
 
     def show_add_dialog(self):
+        """
+        Opens a dialog window for adding a new brand.
+        """
         dialog = BrandDialog(self.parent, self.brand_service, mode="add")
         self.parent.wait_window(dialog.dialog)
         self._load_brands()
 
     def show_edit_dialog(self):
+        """
+        Opens a dialog window for editing the selected brand.
+
+        Displays a warning if no brand is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No selection", "Please select a brand to edit")
@@ -150,6 +168,14 @@ class BrandView:
         self._load_brands()
 
     def delete_brand(self):
+        """
+        Deletes the selected brand after user confirmation.
+
+        Displays:
+        - Warning if no brand is selected
+        - Confirmation dialog before deletion
+        - Success or error message after operation
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No selection", "Please select a brand to delete")
