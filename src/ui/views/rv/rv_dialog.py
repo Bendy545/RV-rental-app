@@ -27,6 +27,16 @@ class RvDialog:
         self._create_form()
 
     def _create_form(self):
+        """
+        Creates the rv form UI
+
+        The form contains input fields for:
+        - License Plate (SPZ)
+        - Manufacture Date
+        - Price per Day
+        - Brand
+        - RV type
+        """
         title_text = "Add New RV" if self.mode == "add" else "Edit RV"
         title_frame = tk.Frame(self.dialog, bg="#00BCD4", height=50)
         title_frame.pack(fill="x")
@@ -124,6 +134,13 @@ class RvDialog:
         self.spz_entry.focus()
 
     def save(self):
+        """
+        Validates form input and saves the RV
+
+        Raises:
+            ValueError: If the form input is invalid.
+            Exception: For unexpected errors.
+        """
         spz = self.spz_entry.get().strip()
         date_str = self.date_entry.get().strip()
         price_str = self.price_entry.get().strip()

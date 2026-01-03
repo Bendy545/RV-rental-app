@@ -12,6 +12,11 @@ class CustomerView:
         self._load_customers()
 
     def _create_ui(self):
+        """
+        Creates UI elements for CustomerView
+
+        :return: CustomerView UI elements
+        """
         title = tk.Label(
             self.parent,
             text="Customer Management",
@@ -130,6 +135,12 @@ class CustomerView:
         delete_btn.pack(side="left", padx=5)
 
     def _load_customers(self):
+        """
+        Loads customers from the database and displays them in the table.
+
+        Raises:
+            Exception: If an error occurs while retrieving data.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -144,11 +155,19 @@ class CustomerView:
             messagebox.showerror("Error", f"Error loading customers: {str(e)}")
 
     def show_add_dialog(self):
+        """
+        Opens a dialog window for adding a new customer.
+        """
         dialog = CustomerDialog(self.parent, self.customer_service, mode="add")
         self.parent.wait_window(dialog.dialog)
         self._load_customers()
 
     def show_edit_dialog(self):
+        """
+        Opens a dialog window for editing the selected customer.
+
+        Displays a warning if no brand is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select a customer to edit")
@@ -167,6 +186,14 @@ class CustomerView:
         self._load_customers()
 
     def delete_customer(self):
+        """
+        Deletes the selected customer after user confirmation.
+
+        Displays:
+        - Warning if no customer is selected
+        - Confirmation dialog before deletion
+        - Success or error message after operation
+        """
         selected = self.tree.selection()
 
         if not selected:

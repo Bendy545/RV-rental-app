@@ -23,6 +23,13 @@ class RvTypeDialog:
         self._create_form()
 
     def _create_form(self):
+        """
+        Creates the rv type form UI
+
+        The form contains input fields for:
+        - Type name
+        - Description
+        """
         title_text = "Add new RV Type" if self.mode == "add" else "Edit RV Type"
         title_frame = tk.Frame(self.dialog, bg="#9C27B0", height=50)
         title_frame.pack(fill="x")
@@ -110,6 +117,13 @@ class RvTypeDialog:
         self.name_entry.focus()
 
     def save(self):
+        """
+        Validates form input and saves the rv_type
+
+        Raises:
+            ValueError: If the form input is invalid.
+            Exception: For unexpected errors.
+        """
         name = self.name_entry.get().strip()
         description = self.desc_entry.get().strip()
 

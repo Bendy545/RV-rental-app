@@ -13,6 +13,11 @@ class RentalView:
         self._load_rentals()
 
     def _create_ui(self):
+        """
+        Creates UI elements for RentalView window
+
+        :return: RentalView UI elements
+        """
         title = tk.Label(
             self.parent,
             text="Rental Management",
@@ -163,6 +168,12 @@ class RentalView:
         ).pack(side="left", padx=5)
 
     def _load_rentals(self):
+        """
+        Loads rentals from database and displays them in the table.
+
+        Raises:
+            Exception: If an error occurs while retrieving data.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -188,11 +199,20 @@ class RentalView:
             messagebox.showerror("Error", f"Error loading rentals: {str(e)}")
 
     def show_add_dialog(self):
+        """
+        Opens a dialog window for adding a new rental.
+        """
         dialog = RentalDialog(self.parent, self.services)
         self.parent.wait_window(dialog.dialog)
         self._load_rentals()
 
     def view_details(self):
+        """
+        Opens a dialog displaying detailed information
+        about the selected rental.
+
+        Displays a warning if no rental is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select a rental to view details")
@@ -204,6 +224,11 @@ class RentalView:
         RentalDetailsDialog(self.parent, self.rental_service, rental_id)
 
     def update_status(self):
+        """
+        Opens a dialog window to update the status of the selected rental.
+
+        Displays a warning if no rental is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select a rental")
@@ -227,6 +252,13 @@ class RentalView:
                 messagebox.showerror("Error", f"Error updating status: {str(e)}")
 
     def mark_as_paid(self):
+        """
+        Marks the selected rental as paid.
+
+        Displays a confirmation dialog before updating the payment status.
+        Displays a warning if no rental is selected or if the rental
+        is already marked as paid.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select a rental")
@@ -249,6 +281,11 @@ class RentalView:
                 messagebox.showerror("Error", f"Error updating payment status: {str(e)}")
 
     def delete_rental(self):
+        """
+        Deletes the selected rental after user confirmation.
+
+        Displays a warning if no rental is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select a rental")

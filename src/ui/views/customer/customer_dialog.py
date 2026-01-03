@@ -22,6 +22,15 @@ class CustomerDialog:
         self._create_form()
 
     def _create_form(self):
+        """
+        Creates the customer form UI
+
+        The form contains input fields for:
+        - customer name
+        - customer surname
+        - customer email
+        - customer phone number
+        """
         title_text = "Add New Customer" if self.mode == "add" else "Edit Customer"
         title_frame = tk.Frame(self.dialog, bg="#2196F3", height=60)
         title_frame.pack(fill="x")
@@ -139,6 +148,14 @@ class CustomerDialog:
         self.name_entry.focus()
 
     def validate_form(self):
+        """
+        Validates customer form input fields.
+
+        Performs basic validation checks for required fields,
+        email format, and phone number length.
+
+        :return: A list of validation error messages. An empty list indicates valid input.
+        """
         errors = []
 
         name = self.name_entry.get().strip()
@@ -165,6 +182,19 @@ class CustomerDialog:
         return errors
 
     def save(self):
+        """
+        Saves the customer data after successful validation.
+
+        If the dialog is in 'add' mode, a new customer is created.
+        If the dialog is in 'edit' mode, the existing customer is updated.
+
+        Displays validation, success, or error messages and
+        closes the dialog upon successful completion.
+
+        Raises:
+            ValueError: If validation fails at the service layer.
+            Exception: For any unexpected errors during saving.
+        """
         errors = self.validate_form()
         if errors:
             messagebox.showerror("Validation Error", "Please fix the following errors:\n\n" + "\n".join(errors))

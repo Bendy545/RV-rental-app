@@ -12,6 +12,11 @@ class RvView:
         self._load_rvs()
 
     def _create_ui(self):
+        """
+        Creates UI elements for RvView window
+
+        :return: RvView UI elements
+        """
         title = tk.Label(
             self.parent,
             text="RV Management",
@@ -129,6 +134,12 @@ class RvView:
         ).pack(side="left", padx=5)
 
     def _load_rvs(self):
+        """
+        Loads Rvs from database and displays them in the table
+
+        Raises:
+            Exception: If an error occurs while retrieving data.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -151,11 +162,19 @@ class RvView:
             messagebox.showerror("Error", f"Error loading RVs: {str(e)}")
 
     def show_add_dialog(self):
+        """
+        Opens a dialog window for adding a new RV.
+        """
         dialog = RvDialog(self.parent, self.services, mode="add")
         self.parent.wait_window(dialog.dialog)
         self._load_rvs()
 
     def show_edit_dialog(self):
+        """
+        Opens a dialog window for editing an existing RV.
+
+        Displays a warning if no Rv is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select an RV to edit")
@@ -169,6 +188,11 @@ class RvView:
         self._load_rvs()
 
     def delete_rv(self):
+        """
+        Deletes the selected Rv after user confirmation.
+
+        Displays a warning if no Rv is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select an RV to delete")

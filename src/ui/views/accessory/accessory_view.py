@@ -12,6 +12,11 @@ class AccessoryView:
         self._load_accessories()
 
     def _create_ui(self):
+        """
+        Creates UI elements for AccessoryView window
+
+        :return: AccessoryView UI elements
+        """
         title = tk.Label(
             self.parent,
             text="Accessory Management",
@@ -124,6 +129,12 @@ class AccessoryView:
         ).pack(side="left", padx=5)
 
     def _load_accessories(self):
+        """
+        Loads accessories from the database and displays them in the table.
+
+        Raises:
+            Exception: If an error occurs while retrieving data.
+        """
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -140,11 +151,19 @@ class AccessoryView:
             messagebox.showerror("Error", f"Error loading accessories: {str(e)}")
 
     def show_add_dialog(self):
+        """
+        Opens a dialog window for adding a new accessory.
+        """
         dialog = AccessoryDialog(self.parent, self.accessory_service, mode="add")
         self.parent.wait_window(dialog.dialog)
         self._load_accessories()
 
     def show_edit_dialog(self):
+        """
+        Opens a dialog window for editing the selected accessory.
+
+        Displays a warning if no accessory is selected.
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No Selection", "Please select an accessory to edit")
@@ -158,6 +177,14 @@ class AccessoryView:
         self._load_accessories()
 
     def delete_accessory(self):
+        """
+        Deletes the selected accessory after user confirmation.
+
+        Displays:
+        - Warning if no accessory is selected
+        - Confirmation dialog before deletion
+        - Success or error message after operation
+        """
         selected = self.tree.selection()
         if not selected:
             messagebox.showwarning("No selection", "Please select an accessory to delete")
