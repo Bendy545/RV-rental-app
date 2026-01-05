@@ -1,9 +1,12 @@
-from datetime import datetime, date
+from datetime import date
 from decimal import Decimal
-import csv
-import json
+from src.db.dao.rental import RentalDatabaseError as DAODatabase
 
 class RentalServiceException(Exception):
+    pass
+class RentalValidationError(RentalServiceException):
+    pass
+class RentalDatabaseError(RentalServiceException):
     pass
 
 class RentalService:
@@ -14,48 +17,72 @@ class RentalService:
         self.accessory_dao = accessory_dao
 
     def create_new_rental(self, date_from, date_to, id_customer, id_rv, accessories_list=None):
-        if date_from >= date_to:
-            raise RentalServiceException("Date from must be before date to")
+        try:
+            today = date.today()
+            max_allowed_date = today.replace(year=today.year + 2)
+            max_duration_days = 90
 
-        if not self.customer_dao.select_customer_by_id(id_customer):
-            raise RentalServiceException(f"Customer with ID {id_customer} does not exist")
+            if date_from > max_allowed_date or date_to > max_allowed_date:
+                raise RentalValidationError(
+                    f"Dates are too far in the future. Maximum allowed date is {max_allowed_date}."
+                )
 
-        rv = self.rv_dao.select_rv_by_id(id_rv)
-        if not rv:
-            raise RentalServiceException(f"RV with ID {id_rv} does not exist")
+            if date_from < today:
+                raise RentalValidationError("Cannot create rental in the past.")
 
-        days = (date_to - date_from).days
-        rv_price_per_day = rv[2]
-        total_price = Decimal(rv_price_per_day) * days
+            if date_from >= date_to:
+                raise RentalValidationError("Date from must be before date to.")
 
-        accessories_with_price = []
-        if accessories_list:
-            for acc in accessories_list:
-                accessory = self.accessory_dao.select_accessory_by_id(acc['id_accessory'])
-                if not accessory:
-                    raise ValueError(f"Accessory with ID {acc['id_accessory']} does not exist")
+            duration = (date_to - date_from).days
+            if duration > max_duration_days:
+                raise RentalValidationError(
+                    f"Rental duration too long ({duration} days). "
+                    f"Maximum allowed is {max_duration_days} days."
+                )
 
-                acc_price = Decimal(accessory[2]) * days * acc['amount']
-                total_price += acc_price
+            if not self.customer_dao.select_customer_by_id(id_customer):
+                raise RentalValidationError(f"Customer with ID {id_customer} does not exist")
 
-                accessories_with_price.append({
-                    'id_accessory': acc['id_accessory'],
-                    'amount': acc['amount'],
-                    'price': acc_price
-                })
+            rv = self.rv_dao.select_rv_by_id(id_rv)
+            if not rv:
+                raise RentalValidationError(f"RV with ID {id_rv} does not exist")
 
-        creation_date = date.today()
-        rental_id = self.rental_dao.create_rental(
-            date_from=date_from,
-            date_to=date_to,
-            creation_date=creation_date,
-            price=total_price,
-            id_customer=id_customer,
-            id_rv=id_rv,
-            accessories_list=accessories_with_price if accessories_with_price else None
-        )
+            days = (date_to - date_from).days
+            rv_price_per_day = rv[2]
+            total_price = Decimal(rv_price_per_day) * days
 
-        return rental_id
+            accessories_with_price = []
+            if accessories_list:
+                for acc in accessories_list:
+                    accessory = self.accessory_dao.select_accessory_by_id(acc['id_accessory'])
+                    if not accessory:
+                        raise ValueError(f"Accessory with ID {acc['id_accessory']} does not exist")
+
+                    acc_price = Decimal(accessory[2]) * days * acc['amount']
+                    total_price += acc_price
+
+                    accessories_with_price.append({
+                        'id_accessory': acc['id_accessory'],
+                        'amount': acc['amount'],
+                        'price': acc_price
+                    })
+
+            creation_date = date.today()
+            rental_id = self.rental_dao.create_rental(
+                date_from=date_from,
+                date_to=date_to,
+                creation_date=creation_date,
+                price=total_price,
+                id_customer=id_customer,
+                id_rv=id_rv,
+                accessories_list=accessories_with_price if accessories_with_price else None
+            )
+
+            return rental_id
+        except DAODatabase as e:
+            raise RentalDatabaseError(str(e))
+        except Exception as e:
+            raise RentalServiceException(f"System error: {str(e)}")
 
     def get_all_rentals_formatted(self):
         rentals = self.rental_dao.all_rentals()

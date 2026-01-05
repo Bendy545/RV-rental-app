@@ -1,5 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
+from src.app.services.customer_service import (
+    CustomerValidationError,
+    CustomerNotFoundError,
+    CustomerDatabaseError,
+    CustomerServiceException
+)
 
 class CustomerDialog:
     def __init__(self, parent, customer_service, mode="add", customer_data=None):
@@ -147,59 +153,7 @@ class CustomerDialog:
 
         self.name_entry.focus()
 
-    def validate_form(self):
-        """
-        Validates customer form input fields.
-
-        Performs basic validation checks for required fields,
-        email format, and phone number length.
-
-        :return: A list of validation error messages. An empty list indicates valid input.
-        """
-        errors = []
-
-        name = self.name_entry.get().strip()
-        surname = self.surname_entry.get().strip()
-        email = self.email_entry.get().strip()
-        tel = self.tel_entry.get().strip()
-
-        if not name:
-            errors.append("Name is required")
-
-        if not surname:
-            errors.append("Surname is required")
-
-        if not email:
-            errors.append("Email is required")
-        elif '@' not in email or '.' not in email:
-            errors.append("Invalid email format (must contain @ and .)")
-
-        if not tel:
-            errors.append("Phone is required")
-        elif len(tel) < 9:
-            errors.append("Phone must be at least 9 digits")
-
-        return errors
-
     def save(self):
-        """
-        Saves the customer data after successful validation.
-
-        If the dialog is in 'add' mode, a new customer is created.
-        If the dialog is in 'edit' mode, the existing customer is updated.
-
-        Displays validation, success, or error messages and
-        closes the dialog upon successful completion.
-
-        Raises:
-            ValueError: If validation fails at the service layer.
-            Exception: For any unexpected errors during saving.
-        """
-        errors = self.validate_form()
-        if errors:
-            messagebox.showerror("Validation Error", "Please fix the following errors:\n\n" + "\n".join(errors))
-            return
-
         name = self.name_entry.get().strip()
         surname = self.surname_entry.get().strip()
         email = self.email_entry.get().strip()
@@ -221,7 +175,20 @@ class CustomerDialog:
 
             self.dialog.destroy()
 
-        except ValueError as e:
-            messagebox.showerror("Validation Error", str(e))
-        except Exception as e:
-            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+        except CustomerValidationError as e:
+            messagebox.showwarning("Validation Error", str(e))
+
+        except CustomerNotFoundError as e:
+            messagebox.showerror("Not Found", "This customer no longer exists.")
+            self.dialog.destroy()
+
+        except CustomerDatabaseError as e:
+            error_msg = str(e).lower()
+
+            if "already exists" in error_msg:
+                messagebox.showerror("Duplicate Email",f"The email '{email}' is already registered to another customer.")
+            else:
+                messagebox.showerror("Database Error", f"A database error occurred:\n\n{str(e)}")
+
+        except CustomerServiceException as e:
+            messagebox.showerror("System Error", f"An unexpected error occurred:\n\n{str(e)}")

@@ -2,6 +2,13 @@ import tkinter as tk
 from tkinter import messagebox
 from decimal import Decimal
 
+from src.app.services.accessory_service import (
+    AccessoryValidationError,
+    AccessoryNotFoundError,
+    AccessoryDatabaseError,
+    AccessoryServiceException
+)
+
 class AccessoryDialog:
     def __init__(self, parent, accessory_service, mode="add", accessory_data=None):
         self.accessory_service = accessory_service
@@ -115,13 +122,6 @@ class AccessoryDialog:
         self.name_entry.focus()
 
     def save(self):
-        """
-        Validates form input and saves the accessory.
-
-        Raises:
-            ValueError: If the price value is invalid.
-            Exception: For any unexpected errors during saving.
-        """
         name = self.name_entry.get().strip()
         description = self.desc_entry.get().strip()
         price_str = self.price_entry.get().strip()
@@ -133,31 +133,45 @@ class AccessoryDialog:
             errors.append("Description is required")
         if not price_str:
             errors.append("Price is required")
-        else:
-            try:
-                price = float(price_str)
-                if price <= 0:
-                    errors.append("Price must be positive")
-            except ValueError:
-                errors.append("Price must be a valid number")
-
         if errors:
             messagebox.showerror("Validation Error", "Please fix:\n\n" + "\n".join(errors))
             return
 
         try:
-            price = Decimal(price_str)
+            try:
+                price = Decimal(price_str)
+                if price <= 0:
+                    messagebox.showerror("Validation Error","Price must be greater than zero")
+                    return
+            except Exception:
+                messagebox.showerror("Validation Error","Price must be a valid number (e.g., 10.50)")
+                return
 
             if self.mode == "add":
                 self.accessory_service.create_accessory(name, description, price)
-                messagebox.showinfo("Success", "Accessory added successfully")
+                messagebox.showinfo("Success", "Accessory added successfully!")
             else:
-                self.accessory_service.update_accessory(self.accessory_id, name, description, price)
-                messagebox.showinfo("Success", "Accessory updated successfully")
+                self.accessory_service.update_accessory(self.accessory_id,name,description,price)
+                messagebox.showinfo("Success", "Accessory updated successfully!")
 
             self.dialog.destroy()
 
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
-        except Exception as e:
-            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+        except AccessoryValidationError as e:
+            messagebox.showerror("Validation Error", str(e))
+
+        except AccessoryNotFoundError as e:
+            messagebox.showerror("Not Found",f"The accessory could not be found.\n\n{str(e)}\n\nPlease refresh and try again.")
+            self.dialog.destroy()
+
+        except AccessoryDatabaseError as e:
+            error_msg = str(e)
+
+            if "already exists" in error_msg.lower():
+                messagebox.showerror("Duplicate Entry",f"An accessory with this name already exists.\n\nPlease choose a different name.")
+            elif "referenced in active rentals" in error_msg.lower():
+                messagebox.showerror("Cannot Delete","This accessory is currently being used in rentals and cannot be modified in a way that would break those references.")
+            else:
+                messagebox.showerror("Database Error",f"A database error occurred:\n\n{error_msg}\n\nPlease try again or contact support.")
+
+        except AccessoryServiceException as e:
+            messagebox.showerror("Error",f"An error occurred:\n\n{str(e)}\n\nPlease try again.")

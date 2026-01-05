@@ -2,6 +2,13 @@ import tkinter as tk
 from tkinter import messagebox, ttk
 from src.ui.views.accessory.accessory_dialog import AccessoryDialog
 
+from src.app.services.accessory_service import (
+    AccessoryValidationError,
+    AccessoryNotFoundError,
+    AccessoryDatabaseError,
+    AccessoryServiceException
+)
+
 class AccessoryView:
     def __init__(self, parent, services):
         self.parent = parent
@@ -147,16 +154,23 @@ class AccessoryView:
                 tag = "evenrow" if idx % 2 == 0 else "oddrow"
                 self.tree.insert("", "end", values=formatted, tags=(tag,))
 
-        except Exception as e:
-            messagebox.showerror("Error", f"Error loading accessories: {str(e)}")
+        except AccessoryDatabaseError as e:
+                error_msg = str(e)
+                messagebox.showerror("Database Error", f"Failed to load accessories from database:\n\n{error_msg}\n\nPlease check your database connection.")
+
+        except AccessoryServiceException as e:
+            messagebox.showerror("Error",f"Failed to load accessories:\n\n{str(e)}")
 
     def show_add_dialog(self):
         """
         Opens a dialog window for adding a new accessory.
         """
-        dialog = AccessoryDialog(self.parent, self.accessory_service, mode="add")
-        self.parent.wait_window(dialog.dialog)
-        self._load_accessories()
+        try:
+            dialog = AccessoryDialog(self.parent, self.accessory_service, mode="add")
+            self.parent.wait_window(dialog.dialog)
+            self._load_accessories()
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to open add dialog:\n\n{str(e)}")
 
     def show_edit_dialog(self):
         """
@@ -187,21 +201,44 @@ class AccessoryView:
         """
         selected = self.tree.selection()
         if not selected:
-            messagebox.showwarning("No selection", "Please select an accessory to delete")
-            return
-
-        item = self.tree.item(selected[0])
-        acc_id = item["values"][0]
-        acc_name = item["values"][1]
-
-        if not messagebox.askyesno("Confirm Delete", f"Delete accessory {acc_name}?"):
+            messagebox.showwarning(
+                "No Selection",
+                "Please select an accessory to delete."
+            )
             return
 
         try:
+            item = self.tree.item(selected[0])
+            acc_id = item["values"][0]
+            acc_name = item["values"][1]
+
+            if not acc_id:
+                messagebox.showinfo("No Data","There are no accessories to delete.")
+                return
+
+            if not messagebox.askyesno("Confirm Delete",f"Are you sure you want to delete the accessory:\n\n'{acc_name}'?\n\nThis action cannot be undone."):
+                return
+
             self.accessory_service.delete_accessory(acc_id)
-            messagebox.showinfo("Success", "Accessory deleted successfully")
+
+            messagebox.showinfo("Success",f"Accessory '{acc_name}' has been deleted successfully.")
+
             self._load_accessories()
 
-        except Exception as e:
-            messagebox.showerror("Error", f"Error deleting accessory: {str(e)}")
+        except AccessoryNotFoundError as e:
+            messagebox.showwarning("Not Found",f"The accessory could not be found.\n\nIt may have already been deleted.\n\nRefreshing the list...")
+            self._load_accessories()
+
+        except AccessoryDatabaseError as e:
+            error_msg = str(e)
+
+            if "referenced in active rentals" in error_msg.lower() or "child record" in error_msg.lower():
+                messagebox.showerror("Cannot Delete",f"Cannot delete '{acc_name}' because it is currently being used in one or more rentals.\n\nPlease remove or complete those rentals first.")
+            else:
+                messagebox.showerror("Database Error",f"Failed to delete accessory:\n\n{error_msg}")
+
+        except AccessoryValidationError as e:messagebox.showerror("Validation Error",str(e))
+
+        except AccessoryServiceException as e:
+            messagebox.showerror("Error",f"Failed to delete accessory:\n\n{str(e)}")
 

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 from src.ui.views.rv.rv_dialog import RvDialog
+from src.app.services.rv_service import RvDatabaseError,RvNotFoundError
 
 class RvView:
     def __init__(self, parent, services):
@@ -207,7 +208,10 @@ class RvView:
 
         try:
             self.rv_service.delete_rv(rv_id)
-            messagebox.showinfo("Success", "RV deleted successfully")
+            messagebox.showinfo("Deleted", f"RV {rv_spz} was removed.")
             self._load_rvs()
-        except Exception as e:
-            messagebox.showerror("Error", f"Error deleting RV: {str(e)}")
+        except RvDatabaseError as e:
+            messagebox.showerror("Conflict", "This vehicle cannot be deleted because it is linked to rental contracts.")
+        except RvNotFoundError:
+            messagebox.showwarning("Not Found", "Vehicle already deleted.")
+            self._load_rvs()
