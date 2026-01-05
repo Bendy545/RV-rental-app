@@ -18,8 +18,27 @@ class RentalService:
 
     def create_new_rental(self, date_from, date_to, id_customer, id_rv, accessories_list=None):
         try:
+            today = date.today()
+            max_allowed_date = today.replace(year=today.year + 2)
+            max_duration_days = 90
+
+            if date_from > max_allowed_date or date_to > max_allowed_date:
+                raise RentalValidationError(
+                    f"Dates are too far in the future. Maximum allowed date is {max_allowed_date}."
+                )
+
+            if date_from < today:
+                raise RentalValidationError("Cannot create rental in the past.")
+
             if date_from >= date_to:
-                raise RentalValidationError("Date from must be before date to")
+                raise RentalValidationError("Date from must be before date to.")
+
+            duration = (date_to - date_from).days
+            if duration > max_duration_days:
+                raise RentalValidationError(
+                    f"Rental duration too long ({duration} days). "
+                    f"Maximum allowed is {max_duration_days} days."
+                )
 
             if not self.customer_dao.select_customer_by_id(id_customer):
                 raise RentalValidationError(f"Customer with ID {id_customer} does not exist")

@@ -71,7 +71,11 @@ class Rental:
 
         except cx_Oracle.DatabaseError as e:
             self.conn.rollback()
-            raise RentalDatabaseError(f"Error creating rental: {e}")
+            error_obj, = e.args
+            if error_obj.code == 20001:
+                raise RentalDatabaseError("RV is already rented in this period.")
+            else:
+                raise RentalDatabaseError(f"Error creating rental: {e}")
         finally:
             cursor.close()
 
