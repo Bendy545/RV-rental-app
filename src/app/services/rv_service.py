@@ -1,4 +1,12 @@
+from src.db.dao.rv import RvDAOException, RvNotFoundError as DAONotFound, RvDatabaseError as DAODatabase
+
 class RvServiceException(Exception):
+    pass
+class RvValidationError(RvServiceException):
+    pass
+class RvNotFoundError(RvServiceException):
+    pass
+class RvDatabaseError(RvServiceException):
     pass
 
 class RvService:
@@ -7,18 +15,24 @@ class RvService:
         self.brand_dao = brand_dao
         self.rv_type_dao = rv_type_dao
 
-    def create_new_rv(self, spz, manufacture_date, price_for_day, brand_id, type_id):
-
+    def _validate_rv_data(self, spz, price, brand_id, type_id):
+        if not spz or len(spz.strip()) < 5:
+            raise RvValidationError("Invalid SPZ format")
+        if price <= 0:
+            raise RvValidationError("Price must be positive")
         if not self.brand_dao.select_brand_by_id(brand_id):
-            raise RvServiceException(f"Brand with ID {brand_id} does not exist")
-
+            raise RvValidationError("Selected brand does not exist")
         if not self.rv_type_dao.select_type_by_id(type_id):
-            raise RvServiceException(f"RV Type with ID {type_id} does not exist")
+            raise RvValidationError("Selected type does not exist")
 
-        if price_for_day <= 0:
-            raise RvServiceException("Price per day must be positive")
-
-        self.rv_dao.create_rv(spz, manufacture_date, price_for_day, brand_id, type_id)
+    def create_new_rv(self, spz, manufacture_date, price_for_day, brand_id, type_id):
+        try:
+            self._validate_rv_data(spz, price_for_day, brand_id, type_id)
+            self.rv_dao.create_rv(spz.strip().upper(), manufacture_date, price_for_day, brand_id, type_id)
+        except DAODatabase as e:
+            raise RvDatabaseError(str(e))
+        except RvDAOException as e:
+            raise RvServiceException(str(e))
 
     def get_all_rvs_formatted(self):
 
@@ -42,15 +56,24 @@ class RvService:
         return self.rv_dao.select_rv_by_id(rv_id)
 
     def update_rv(self, rv_id, spz=None, manufacture_date=None, price_for_day=None, id_brand=None, id_type=None):
+        try:
 
-        if price_for_day is not None and price_for_day <= 0:
-            raise RvServiceException("Price per day must be positive")
+            if price_for_day is not None and price_for_day <= 0:
+                raise RvValidationError("Price per day must be positive")
 
-        self.rv_dao.update_rv(rv_id, spz, manufacture_date, price_for_day, id_brand, id_type)
+            self.rv_dao.update_rv(rv_id, spz, manufacture_date, price_for_day, id_brand, id_type)
+        except DAONotFound:
+            raise RvNotFoundError(f"RV {rv_id} not found")
+        except DAODatabase as e:
+            raise RvDatabaseError(str(e))
 
     def delete_rv(self, rv_id):
-
-        self.rv_dao.delete_rv(rv_id)
+        try:
+            self.rv_dao.delete_rv(rv_id)
+        except DAONotFound:
+            raise RvNotFoundError("RV not found")
+        except DAODatabase as e:
+            raise RvDatabaseError(str(e))
 
     def check_rv_availability(self, rv_id, date_from, date_to):
 

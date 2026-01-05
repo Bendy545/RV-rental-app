@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime, date
+from src.app.services.rental_service import RentalDatabaseError, RentalValidationError
 
 class RentalDialog:
     def __init__(self, parent, services):
@@ -192,13 +193,6 @@ class RentalDialog:
         ).pack(side="left", padx=5)
 
     def save(self):
-        """
-        Validates form input and creates a new rental.
-
-        Raises:
-            ValueError: If validation or rental creation fails.
-            Exception: For any unexpected errors during the process.
-        """
         customer_str = self.customer_var.get()
         rv_str = self.rv_var.get()
         date_from_str = self.date_from_entry.get().strip()
@@ -263,10 +257,14 @@ class RentalDialog:
 
             self.dialog.destroy()
 
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
+        except RentalValidationError as e:
+            messagebox.showwarning("Validation", str(e))
+
+        except RentalDatabaseError as e:
+            messagebox.showerror("Database Rejected", str(e))
+
         except Exception as e:
-            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+            messagebox.showerror("Error", f"Failed to create rental: {e}")
 
 
 class StatusDialog:

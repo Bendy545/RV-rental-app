@@ -3,6 +3,7 @@ from tkinter import ttk, messagebox
 from decimal import Decimal
 from datetime import datetime
 
+from src.app.services.rv_service import RvDatabaseError,RvValidationError
 class RvDialog:
     def __init__(self, parent, services, mode="add", rv_data=None):
         self.services = services
@@ -190,7 +191,7 @@ class RvDialog:
 
             self.dialog.destroy()
 
-        except ValueError as e:
+        except (RvValidationError, RvDatabaseError) as e:
             messagebox.showerror("Error", str(e))
         except Exception as e:
-            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+            messagebox.showerror("Unexpected Error", str(e))

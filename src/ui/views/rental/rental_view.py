@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from src.ui.views.rental.rental_dialog import RentalDialog, StatusDialog
 from src.ui.views.rental.rental_details_dialog import RentalDetailsDialog
+from src.app.services.rental_service import RentalDatabaseError
 
 class RentalView:
     def __init__(self, parent, services):
@@ -301,5 +302,5 @@ class RentalView:
                 self.rental_service.delete_rental(rental_id)
                 messagebox.showinfo("Success", "Rental deleted successfully")
                 self._load_rentals()
-            except Exception as e:
-                messagebox.showerror("Error", f"Error deleting rental: {str(e)}")
+            except RentalDatabaseError as e:
+                messagebox.showerror("Error", f"Cannot delete rental: {e}")

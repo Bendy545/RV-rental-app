@@ -1,4 +1,10 @@
-class RentalException(Exception):
+import cx_Oracle
+
+class RentalDAOException(Exception):
+    pass
+class RentalNotFoundError(RentalDAOException):
+    pass
+class RentalDatabaseError(RentalDAOException):
     pass
 
 class Rental:
@@ -63,9 +69,9 @@ class Rental:
                 print(f"Rental created with {len(accessories_list)} accessories (rental_id: {rental_id_value})")
                 return rental_id_value
 
-        except Exception as e:
+        except cx_Oracle.DatabaseError as e:
             self.conn.rollback()
-            raise RentalException(f"Error creating rental: {e}")
+            raise RentalDatabaseError(f"Error creating rental: {e}")
         finally:
             cursor.close()
 
@@ -188,8 +194,9 @@ class Rental:
         try:
             cursor.execute(sql, {"id": id})
             self.conn.commit()
-        except RentalException as e:
+        except cx_Oracle.DatabaseError as e:
             self.conn.rollback()
-            raise e
+            raise RentalDatabaseError(f"Could no delete rental: {str(e)}")
         finally:
-            cursor.close()
+            if cursor:
+                cursor.close()
