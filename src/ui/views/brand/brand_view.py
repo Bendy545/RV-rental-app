@@ -1,6 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 from src.ui.views.brand.brand_dialog import BrandDialog
+from src.app.services.brand_service import (
+    BrandValidationError,
+    BrandNotFoundError,
+    BrandDatabaseError,
+    BrandServiceException
+)
 
 class BrandView:
     def __init__(self, parent, services):
@@ -192,7 +198,19 @@ class BrandView:
             self.brand_service.delete_brand(brand_id)
             messagebox.showinfo("Success", "Brand deleted successfully")
             self._load_brands()
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
-        except Exception as e:
-            messagebox.showerror("Error", f"Error deleting brand: {str(e)}")
+        except BrandNotFoundError:
+            messagebox.showwarning("Not Found", "The brand was not found. It might have been already deleted.")
+            self._load_brands()
+
+        except BrandDatabaseError as e:
+            error_msg = str(e).lower()
+            if "used by rvs" in error_msg or "child record" in error_msg:
+                messagebox.showerror("Cannot Delete",f"Cannot delete '{brand_name}' because it is assigned to one or more vehicles.\n\n""Please remove or reassign the vehicles first.")
+            else:
+                messagebox.showerror("Database Error", f"Failed to delete brand:\n\n{str(e)}")
+
+        except BrandValidationError as e:
+            messagebox.showerror("Validation Error", str(e))
+
+        except BrandServiceException as e:
+            messagebox.showerror("Error", f"An unexpected error occurred:\n\n{str(e)}")

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox, ttk
 from src.ui.views.rv_type.rv_type_dialog import RvTypeDialog
+from src.app.services.rv_type_service import RvTypeDatabaseError,RvTypeValidationError,RvTypeNotFoundError,RvTypeServiceException
 
 class RvTypeView:
     def __init__(self, parent, services):
@@ -188,7 +189,9 @@ class RvTypeView:
             self.rv_type_service.delete_rv_type(type_id)
             messagebox.showinfo("Success", "RV type successfully deleted")
             self._load_rv_types()
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
+        except RvTypeValidationError as e:
+            messagebox.showwarning("In Use", str(e))
+        except RvTypeDatabaseError as e:
+            messagebox.showerror("Database Error", "Database denied deletion (Integrity constraint).")
         except Exception as e:
-            messagebox.showerror("Error", f"Error deleting RV type: {str(e)}")
+            messagebox.showerror("Error", str(e))

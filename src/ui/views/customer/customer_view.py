@@ -1,6 +1,11 @@
 import tkinter as tk
 from tkinter import ttk, messagebox
 from src.ui.views.customer.customer_dialog import CustomerDialog
+from src.app.services.customer_service import (
+    CustomerNotFoundError,
+    CustomerDatabaseError,
+    CustomerServiceException
+)
 
 class CustomerView:
     def __init__(self, parent, services):
@@ -211,6 +216,17 @@ class CustomerView:
             self.customer_service.delete_customer(customer_id)
             messagebox.showinfo("Success", "Customer deleted successfully")
             self._load_customers()
-        except Exception as e:
-            messagebox.showerror("Error", f"Error deleting customer: {str(e)}")
 
+        except CustomerNotFoundError:
+            messagebox.showwarning("Not Found","The customer was not found. They might have been deleted by another user.")
+            self._load_customers()
+
+        except CustomerDatabaseError as e:
+            error_msg = str(e).lower()
+            if "rentals" in error_msg or "child record" in error_msg:
+                messagebox.showerror("Cannot Delete",f"Customer '{customer_name}' cannot be deleted because they have existing rental records.\n\n""Please delete the rentals first.")
+            else:
+                messagebox.showerror("Database Error", f"Failed to delete customer:\n\n{str(e)}")
+
+        except CustomerServiceException as e:
+            messagebox.showerror("Error", f"An unexpected error occurred:\n\n{str(e)}")

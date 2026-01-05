@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+from src.app.services.rv_type_service import RvTypeDatabaseError,RvTypeValidationError,RvTypeServiceException
 
 
 class RvTypeDialog:
@@ -117,13 +118,6 @@ class RvTypeDialog:
         self.name_entry.focus()
 
     def save(self):
-        """
-        Validates form input and saves the rv_type
-
-        Raises:
-            ValueError: If the form input is invalid.
-            Exception: For unexpected errors.
-        """
         name = self.name_entry.get().strip()
         description = self.desc_entry.get().strip()
 
@@ -147,7 +141,7 @@ class RvTypeDialog:
 
             self.dialog.destroy()
 
-        except ValueError as e:
+        except (RvTypeValidationError, RvTypeDatabaseError) as e:
             messagebox.showerror("Error", str(e))
-        except Exception as e:
-            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+        except RvTypeServiceException as e:
+            messagebox.showerror("Fatal Error", f"Unexpected error: {e}")

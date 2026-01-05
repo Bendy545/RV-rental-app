@@ -1,5 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
+from src.app.services.brand_service import (
+    BrandValidationError,
+    BrandNotFoundError,
+    BrandDatabaseError,
+    BrandServiceException
+)
 
 class BrandDialog:
     def __init__(self, parent, brand_service, mode="add", brand_data=None):
@@ -93,31 +99,31 @@ class BrandDialog:
         self.name_entry.focus()
 
     def save(self):
-        """
-        Validates form input and saves the brand.
-
-        Raises:
-            ValueError: If the brand name is invalid.
-            Exception: For any unexpected errors during saving.
-        """
         name = self.name_entry.get().strip()
-
-        if not name:
-            messagebox.showerror("Validation Error", "Brand name is required")
-            return
-
         try:
             if self.mode == "add":
                 self.brand_service.create_brand(name)
                 messagebox.showinfo("Success", "Brand added successfully")
-
             else:
                 self.brand_service.update_brand(self.brand_id, name)
                 messagebox.showinfo("Success", "Brand updated successfully")
 
             self.dialog.destroy()
 
-        except ValueError as e:
-            messagebox.showerror("Error", str(e))
-        except Exception as e:
-            messagebox.showerror("Error", f"Unexpected error: {str(e)}")
+        except BrandValidationError as e:
+            messagebox.showerror("Validation Error", str(e))
+
+        except BrandNotFoundError as e:
+            messagebox.showerror("Not Found", f"The brand no longer exists.\n\n{str(e)}")
+            self.dialog.destroy()
+
+        except BrandDatabaseError as e:
+            error_msg = str(e).lower()
+            if "already exists" in error_msg:
+                messagebox.showerror("Duplicate Entry",
+                                     f"Brand '{name}' already exists. Please choose a different name.")
+            else:
+                messagebox.showerror("Database Error", f"A database error occurred:\n\n{str(e)}")
+
+        except BrandServiceException as e:
+            messagebox.showerror("Error", f"An unexpected error occurred:\n\n{str(e)}")
