@@ -5,14 +5,21 @@
 
 ```text
 project/
+├── config.json
+├── main.py
 ├── requirements.txt
 ├── README.md
-├── doc/
+├── bin/
+    ├── RVRentalApp.exe
+    ├── RVRentalApp.spec
+├── test/
+    ├── TestCases.pdf
     ├── test_import_files/
         ├── accessories.json
         ├── brands.csv
         ├── customers.csv
         └── rv_types.json
+├── doc/
     ├── diagram.png
     ├── example1.png
     └── example2.png
