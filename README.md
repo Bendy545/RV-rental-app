@@ -12,6 +12,7 @@ project/
 ├── bin/
     ├── RVRentalApp.exe
     ├── RVRentalApp.spec
+    └── main.spec
 ├── test/
     ├── TestCases.pdf
     ├── test_import_files/
