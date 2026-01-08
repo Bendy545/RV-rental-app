@@ -148,10 +148,9 @@ You can change the username and password if needed
 
 ### 2. database creation
 
-Using the RV_RENTAL_APP connection, execute the SQL scripts in this order:
-1. src/db/sql/create_database_script.sql
-2. src/db/sql/procedure_create_script.sql
-3. src/db/sql/view_create_script.sql
+Using the RV_RENTAL_APP connection, execute the DATABASE.sql script:
+
+/src/db/sql/DATABASE.sql
 
 Verify that tables, procedures, views were created successfully
 
